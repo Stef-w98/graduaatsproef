@@ -43,8 +43,11 @@ class _PageViewControllerState extends State<BottomNavigation> {
           const HomeScreen()),
       NavigationPage(NavigationPage.checkInOutScreen, 'Check In/Out',
           Icons.checklist_outlined, const CheckInOutScreen()),
-      NavigationPage(NavigationPage.checkInOutScreen, 'Check In/Out',
-          Icons.checklist_outlined, const CheckInOutScreen()),
+      NavigationPage(
+          NavigationPage.accountManagementScreen,
+          'accountManagementScreen',
+          Icons.account_circle_outlined,
+          const AccountManagementScreen()),
       NavigationPage(NavigationPage.analytics, 'analytics',
           Icons.analytics_outlined, AnalyticsScreen()),
     ];

@@ -19,9 +19,9 @@ class ScreenPath {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-      url: 'https://zyyttgrfyefxxlgesoke.supabase.co',
+      url: 'https://vxroeuhrwukfubpxezrp.supabase.co',
       anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5eXR0Z3JmeWVmeHhsZ2Vzb2tlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Njg2OTY5NDksImV4cCI6MTk4NDI3Mjk0OX0.Dl7Gfm9KQvATcZyx7KkMffWLbfQC0DrM1KCLglJDM0U',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4cm9ldWhyd3VrZnVicHhlenJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg5OTc3NzAsImV4cCI6MTk5NDU3Mzc3MH0.KvUbmkAsNCOOmz4ag5fA5Wq1WCnmaznkOaPg5caCfAE',
       authCallbackUrlHostname: 'login-callback',
       debug: false);
   runApp(const MyApp());
@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
             const BottomAppBarTheme(surfaceTintColor: Colors.blueAccent),
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
-      initialRoute: '/homeScreen',
+      home: AnalyticsScreen(),
+      initialRoute: '/analyticsScreen',
       routes: {
         //ScreenPath.signin: (context) => const SignInScreen(),
         //ScreenPath.signup: (context) => const SignUpScreen(),

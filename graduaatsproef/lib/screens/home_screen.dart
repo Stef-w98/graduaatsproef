@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  final int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,13 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {},
               child: const Text('Get Started'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
             ),
           ],
         ),

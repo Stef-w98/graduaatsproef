@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CheckInOutScreen extends StatelessWidget {
   const CheckInOutScreen({Key? key}) : super(key: key);
+  final int _currentIndex = 1;
 
   @override
   Widget build(BuildContext context) {
