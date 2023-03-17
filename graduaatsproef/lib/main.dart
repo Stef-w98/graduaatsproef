@@ -3,6 +3,9 @@ import 'package:graduaatsproef/screens/account_management_screen.dart';
 import 'package:graduaatsproef/screens/analytics_screen.dart';
 import 'package:graduaatsproef/screens/checkinout_screen.dart';
 import 'package:graduaatsproef/screens/home_screen.dart';
+import 'package:graduaatsproef/screens/sign_in_screen.dart';
+import 'package:graduaatsproef/screens/sign_up_screen.dart';
+import 'package:graduaatsproef/screens/splashscreen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ScreenPath {
@@ -10,9 +13,9 @@ class ScreenPath {
   static const String checkInOutScreen = "/checkInOutScreen";
   static const String accountManagementScreen = "/accountManagementScreen";
   static const String analyticsScreen = "/analyticsScreen";
-  //static const String signin = "/signin";
-  //static const String signup = "/sigup";
-  //static const String splashscreen = "/splashscreen";
+  static const String signin = "/signin";
+  static const String signup = "/signup";
+  static const String splashscreen = "/splashscreen";
   //static const String notification = "/MedicationNotificationsPage";
 }
 
@@ -42,16 +45,16 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: AnalyticsScreen(),
-      initialRoute: '/analyticsScreen',
+      initialRoute: '/splashscreen',
       routes: {
-        //ScreenPath.signin: (context) => const SignInScreen(),
-        //ScreenPath.signup: (context) => const SignUpScreen(),
+        ScreenPath.signin: (context) => const SignInScreen(),
+        ScreenPath.signup: (context) => const SignUpScreen(),
         ScreenPath.homeScreen: (context) => const HomeScreen(),
         ScreenPath.checkInOutScreen: (context) => const CheckInOutScreen(),
         ScreenPath.accountManagementScreen: (context) =>
             const AccountManagementScreen(),
         ScreenPath.analyticsScreen: (context) => AnalyticsScreen(),
-        //ScreenPath.splashscreen: (context) => const SplashScreen(),
+        ScreenPath.splashscreen: (context) => const SplashScreen(),
         //ScreenPath.notification: (context) => const MedicationNotificationsPage()
       },
     );

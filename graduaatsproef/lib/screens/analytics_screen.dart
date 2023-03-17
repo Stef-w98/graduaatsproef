@@ -6,7 +6,7 @@ class AnalyticsScreen extends StatefulWidget {
 }
 
 class _AnalyticsScreenState extends State<AnalyticsScreen> {
-  final int _currentIndex = 3;
+  final int _currentIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

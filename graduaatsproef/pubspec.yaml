@@ -36,6 +36,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   supabase_flutter: ^0.2.6
+  flutter_signin_button: ^2.0.0
+  nfc_manager: ^3.2.0
+
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +72,10 @@ flutter:
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
+
+  assets:
+    - assets/checkpointLogoTransparant.png
+    - assets/checkpoint.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

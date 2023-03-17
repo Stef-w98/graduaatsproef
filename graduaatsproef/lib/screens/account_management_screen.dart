@@ -9,7 +9,7 @@ class AccountManagementScreen extends StatefulWidget {
 }
 
 class _AccountManagementScreenState extends State<AccountManagementScreen> {
-  final int _currentIndex = 2;
+  final int _currentIndex = 3;
   // Define your form key and text editing controllers
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();

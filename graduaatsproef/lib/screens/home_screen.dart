@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graduaatsproef/screens/sign_in_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,12 +22,9 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              child: const Text('Get Started'),
+              child: const Text('Sign Out'),
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                onTapSignOut();
               },
             ),
           ],
@@ -33,4 +32,8 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void onTapSignOut() async {
+  await Supabase.instance.client.auth.signOut();
 }
