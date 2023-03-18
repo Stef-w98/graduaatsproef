@@ -40,9 +40,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CheckPoint',
       theme: ThemeData(
-        bottomAppBarTheme:
-            const BottomAppBarTheme(surfaceTintColor: Colors.blueAccent),
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+        primaryColor: Colors.blue,
+        accentColor: Colors.yellow,
+        fontFamily: 'Montserrat',
+        // define other properties here
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.blueGrey[800],
+        accentColor: Colors.amberAccent,
+        fontFamily: 'Montserrat',
+        // define other properties here
       ),
       home: AnalyticsScreen(),
       initialRoute: '/splashscreen',

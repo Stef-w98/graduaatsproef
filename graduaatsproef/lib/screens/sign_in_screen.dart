@@ -13,9 +13,10 @@ class SignInScreen extends StatefulWidget {
 }
 
 class SignInScreenState extends AuthState<SignInScreen> {
-  var authRedirectUri = 'io.supabase.medremind://login-callback';
+  var authRedirectUri = 'io.supabase.checkpoint://login-callback';
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool _passwordInvisable = true;
 
   @override
   Widget build(BuildContext context) {
@@ -23,289 +24,288 @@ class SignInScreenState extends AuthState<SignInScreen> {
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 29, 29, 29),
         resizeToAvoidBottomInset: true,
-        body: SizedBox(
-          height: 768,
-          width: 375,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 200.0,
-                            child: Image.asset(
-                              "assets/checkpoint.png",
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              top: 6,
-                              right: 16,
-                            ),
-                            child: Container(
-                              //  width: 343,
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(
-                                  5,
-                                ),
-                              ),
-                              child: TextFormField(
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  hintText: "Enter your email",
-                                  hintStyle: const TextStyle(
-                                      fontSize: 12.0, color: Colors.white),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      5,
-                                    ),
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      5,
-                                    ),
-                                    borderSide: const BorderSide(
-                                        color:
-                                            Color.fromARGB(255, 13, 245, 227)),
-                                  ),
-                                  prefixIcon: const Padding(
-                                    padding: EdgeInsets.all(
-                                      15,
-                                    ),
-                                    child: Icon(Icons.email_outlined,
-                                        color: Colors.white),
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.transparent,
-                                ),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 343,
-                            height: 48,
-                            margin: const EdgeInsets.only(
-                              left: 16,
-                              top: 8,
-                              right: 16,
-                            ),
-                            child: TextFormField(
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: "Enter Password",
-                                hintStyle: const TextStyle(
-                                    fontSize: 12.0, color: Colors.white),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    5,
-                                  ),
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    5,
-                                  ),
-                                  borderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 13, 245, 227),
-                                  ),
-                                ),
-                                prefixIcon: const Padding(
-                                  padding: EdgeInsets.all(
-                                    15,
-                                  ),
-                                  child: Icon(Icons.lock_outline_rounded,
-                                      color: Colors.white),
-                                ),
-                                filled: true,
-                                fillColor: Colors.transparent,
-                              ),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14.0,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              onTapBtnSignin();
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                top: 18,
-                                right: 16,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 13, 245, 227),
-                                  borderRadius: BorderRadius.circular(
-                                    5,
-                                  ),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
-                                ),
-                                alignment: Alignment.center,
-                                height: 57,
-                                width: 343,
-                                child: const Text(
-                                  "Sign In",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 375,
-                            height: 21,
-                            margin: const EdgeInsets.only(
-                              top: 19,
-                            ),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 1,
-                                    width: 134,
-                                    margin: const EdgeInsets.only(
-                                      left: 16,
-                                      top: 10,
-                                      bottom: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.white,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 21,
-                                    width: 21,
-                                    margin: const EdgeInsets.only(
-                                      left: 28,
-                                    ),
-                                    child: const Text(
-                                      "OR",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 1,
-                                    width: 120,
-                                    margin: const EdgeInsets.only(
-                                      left: 23,
-                                      top: 10,
-                                      right: 16,
-                                      bottom: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.blue.shade50,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  )
-                                ]),
-                          ),
-                          SignInButton(
-                            Buttons.Google,
-                            onPressed: () {
-                              onTapBtnGoogleSignin();
-                            },
-                          ),
-                          SignInButton(
-                            Buttons.FacebookNew,
-                            onPressed: () {
-                              onTapBtnFacebookSignin();
-                            },
-                          ),
-                          SignInButton(
-                            Buttons.GitHub,
-                            onPressed: () {
-                              onTapBtnGithubSignin();
-                            },
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUpScreen()),
-                              );
-                            },
-                            child: Container(
-                              width: 212,
-                              margin: const EdgeInsets.only(
-                                left: 81,
-                                top: 8,
-                                right: 82,
-                              ),
-                              child: RichText(
-                                  text: TextSpan(children: <InlineSpan>[
-                                    TextSpan(
-                                      text: "Don't have an account?",
-                                      style: TextStyle(
-                                          color: Colors.blueGrey.shade300,
-                                          fontSize: 12,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    TextSpan(
-                                      text: ' ',
-                                      style: TextStyle(
-                                          color: Colors.indigo.shade300,
-                                          fontSize: 12,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    const TextSpan(
-                                      text: "SignUp",
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 13, 245, 227),
-                                          fontSize: 12,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w700),
-                                    )
-                                  ]),
-                                  textAlign: TextAlign.center),
-                            ),
-                          )
-                        ]),
-                  ),
+        body: Align(
+          alignment: const AlignmentDirectional(-0.14, -0.08),
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              color: Color(0x19444D59),
+              image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  'assets/images/launchScreen.png',
                 ),
               ),
-            ],
+            ),
+            child: SizedBox(
+              height: 768,
+              width: 375,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 30.0,
+                              ),
+                              SizedBox(
+                                height: 220.0,
+                                child: Image.asset(
+                                  "assets/images/checkpoint.png",
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 60.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    40, 0, 40, 20),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1A1F24),
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            12, 0, 20, 0),
+                                    child: TextFormField(
+                                      controller: emailController,
+                                      obscureText: false,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Email',
+                                        hintText: 'Email Address',
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                      ),
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    40, 0, 40, 20),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF1A1F24),
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            12, 0, 20, 0),
+                                    child: TextFormField(
+                                      controller: passwordController,
+                                      obscureText: _passwordInvisable,
+                                      decoration: InputDecoration(
+                                        labelText: 'Password',
+                                        hintText: 'Enter Password',
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        focusedBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        errorBorder: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        focusedErrorBorder:
+                                            const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0x00000000),
+                                            width: 1,
+                                          ),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(4.0),
+                                            topRight: Radius.circular(4.0),
+                                          ),
+                                        ),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            _passwordInvisable
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: Colors.grey[400],
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _passwordInvisable =
+                                                  !_passwordInvisable;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  onTapBtnSignin();
+                                },
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          const Color(0xFF4B39EF)),
+                                  elevation:
+                                      MaterialStateProperty.all<double>(4),
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      const EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 120)),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30))),
+                                ),
+                                child: const Text(
+                                  'Log In',
+                                  style: TextStyle(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignUpScreen()),
+                                  );
+                                },
+                                child: Container(
+                                  width: 252,
+                                  margin: const EdgeInsets.only(
+                                    left: 0,
+                                    top: 16,
+                                    right: 0,
+                                  ),
+                                  child: RichText(
+                                      text: TextSpan(children: <InlineSpan>[
+                                        TextSpan(
+                                          text: "Don't have an account?",
+                                          style: TextStyle(
+                                              color: Colors.blueGrey.shade300,
+                                              fontSize: 16,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        TextSpan(
+                                          text: '     ',
+                                          style: TextStyle(
+                                              color: Colors.indigo.shade300,
+                                              fontSize: 18,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                        const TextSpan(
+                                          text: "SignUp",
+                                          style: TextStyle(
+                                              color: Color(0xFF4B39EF),
+                                              fontSize: 18,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w700),
+                                        )
+                                      ]),
+                                      textAlign: TextAlign.center),
+                                ),
+                              ),
+                              const Align(
+                                alignment: AlignmentDirectional(0, 1),
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 250.0),
+                                  child: Text(
+                                    'Version 0.1.2',
+                                    style: TextStyle(
+                                      color: Colors
+                                          .grey, // set the text color to black with 87% opacity
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -324,7 +324,8 @@ class SignInScreenState extends AuthState<SignInScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => BottomNavigation(NavigationPage.homeScreen)),
+            builder: (context) =>
+                const BottomNavigation(NavigationPage.homeScreen)),
       );
     }
   }

@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
       color: const Color.fromARGB(255, 29, 29, 29),
       child: Center(
         child: Image.asset(
-          'assets/checkpoint.png',
+          'assets/images/checkpoint.png',
         ),
       ),
     ));

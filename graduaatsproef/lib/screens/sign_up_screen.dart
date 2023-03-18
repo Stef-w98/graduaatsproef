@@ -36,7 +36,7 @@ class SignUpScreenState extends AuthState<SignUpScreen> {
                             SizedBox(
                               height: 200.0,
                               child: Image.asset(
-                                "assets/checkpoint.png",
+                                "assets/images/checkpoint.png",
                               ),
                             ),
                             Padding(
