@@ -95,9 +95,9 @@ class _PageViewControllerState extends State<BottomNavigation> {
         children: _getScreens(),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blueGrey,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black54,
+        backgroundColor: const Color(0xFF090F13),
+        selectedItemColor: const Color(0xFF4B39EF),
+        unselectedItemColor: const Color(0xFF95A1AC),
         currentIndex: _currentIndex,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,

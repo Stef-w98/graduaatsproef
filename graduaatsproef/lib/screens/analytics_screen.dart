@@ -10,12 +10,17 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF1A1F24),
       appBar: AppBar(
         title: const Text('Analytics'),
+        backgroundColor: const Color(0xFF090F13),
       ),
       body: Container(
         child: const Center(
-          child: Text('Analytics data will be displayed here'),
+          child: Text(
+            'Analytics data will be displayed here',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );

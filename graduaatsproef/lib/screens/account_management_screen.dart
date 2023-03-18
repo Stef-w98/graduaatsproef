@@ -52,8 +52,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1F24),
       appBar: AppBar(
-        title: Text('Account Management'),
+        title: const Text('Account Management'),
+        backgroundColor: const Color(0xFF090F13),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -64,31 +66,44 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Name',
+                  labelStyle: TextStyle(color: Colors.white),
                 ),
+                style: const TextStyle(color: Colors.white),
                 validator: _validateName,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.white),
                 ),
+                style: const TextStyle(color: Colors.white),
                 validator: _validateEmail,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _nfcController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'NFC Card Number',
+                  labelStyle: TextStyle(color: Colors.white),
                 ),
+                style: const TextStyle(color: Colors.white),
                 validator: _validateNFC,
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _saveAccount,
-                child: Text('Save Account'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                ),
+                child: const Text(
+                  'Save Account',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

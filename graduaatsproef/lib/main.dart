@@ -33,6 +33,21 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final MaterialColor primarySwatch = const MaterialColor(
+    0xFF4B39EF, // primary color
+    <int, Color>{
+      50: Color(0xFFE8E6FC),
+      100: Color(0xFFC5C1F6),
+      200: Color(0xFF9F9AEF),
+      300: Color(0xFF7973E8),
+      400: Color(0xFF5C53E3),
+      500: Color(0xFF4B39EF), // same as primary color
+      600: Color(0xFF422FE8),
+      700: Color(0xFF3826E1),
+      800: Color(0xFF301ED9),
+      900: Color(0xFF1F0ECB),
+    },
+  );
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -40,18 +55,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CheckPoint',
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        accentColor: Colors.yellow,
-        fontFamily: 'Montserrat',
-        // define other properties here
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.blueGrey[800],
-        accentColor: Colors.amberAccent,
-        fontFamily: 'Montserrat',
-        // define other properties here
+        bottomAppBarTheme:
+            const BottomAppBarTheme(surfaceTintColor: Color(0xFF4B39EF)),
+        primarySwatch: primarySwatch,
       ),
       home: AnalyticsScreen(),
       initialRoute: '/splashscreen',
