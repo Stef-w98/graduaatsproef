@@ -17,6 +17,18 @@ class Attendance {
     required this.updatedAt,
   });
 
+  factory Attendance.nullAttendance() {
+    return Attendance(
+      id: 0,
+      userId: 0,
+      checkInTime: DateTime.fromMillisecondsSinceEpoch(0),
+      checkOutTime: null,
+      date: DateTime.fromMillisecondsSinceEpoch(0),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(0),
+      updatedAt: DateTime.fromMillisecondsSinceEpoch(0),
+    );
+  }
+
   factory Attendance.fromJson(Map<String, dynamic> json) {
     return Attendance(
       id: json['attendance_id'],

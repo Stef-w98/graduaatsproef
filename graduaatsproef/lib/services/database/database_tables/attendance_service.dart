@@ -9,8 +9,12 @@ class AttendanceService {
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
-    final attendance =
-        response.data!.map((json) => Attendance.fromJson(json)).toList();
+    final List<dynamic> data = response.data ?? [];
+    if (data.isEmpty) {
+      return [];
+    }
+    final List<Attendance> attendance =
+        data.map((json) => Attendance.fromJson(json)).toList();
     attendance.forEach((a) => print('${a.id}: ${a.userId} - ${a.checkInTime}'));
     return attendance;
   }

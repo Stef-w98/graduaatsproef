@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/drawer_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final uuid = Uuid();
+    final randomUid = uuid.v4();
     return Scaffold(
       backgroundColor: const Color(0xFF1A1F24),
       drawer: const DrawerWidget(),
@@ -25,12 +28,11 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              child: const Text('Add User'),
+              child: const Text('Add NFC card'),
               onPressed: () {
-                DatabaseService().usersService.addUser(
-                    firstName: 'Kristof',
-                    lastName: 'Przybylak',
-                    email: 'kristof@gmail.com');
+                DatabaseService()
+                    .nfcCardsService
+                    .addCard(userId: 1, cardUid: randomUid);
               },
             ),
             ElevatedButton(

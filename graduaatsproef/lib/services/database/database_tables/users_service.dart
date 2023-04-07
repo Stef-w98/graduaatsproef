@@ -9,7 +9,8 @@ class UsersService {
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
-    final users = response.data!.map((json) => Users.fromJson(json)).toList();
+    final userMaps = List<Map<String, dynamic>>.from(response.data!);
+    final users = userMaps.map((map) => Users.fromJson(map)).toList();
     users.forEach((user) => print(
         '${user.id}: ${user.firstName} ${user.lastName} - ${user.email}'));
     return users;

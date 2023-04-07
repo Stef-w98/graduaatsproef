@@ -35,6 +35,8 @@ dependencies:
   flutter_signin_button: ^2.0.0
   nfc_manager: ^3.2.0
   google_fonts: ^4.0.3
+  uuid: ^3.0.4
+  intl: ^0.17.0
 
 
 dev_dependencies:
