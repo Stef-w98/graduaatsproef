@@ -1,4 +1,4 @@
-import 'package:graduaatsproef/models/attendance_model.dart';
+/*import 'package:graduaatsproef/models/attendance_model.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/widgets/attendance_filter.dart';
 
@@ -48,4 +48,4 @@ class AttendanceData {
       };
     }).toList();
   }
-}
+}*/

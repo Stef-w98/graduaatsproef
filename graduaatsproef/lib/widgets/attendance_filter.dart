@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+/*import 'package:intl/intl.dart';
 import 'package:graduaatsproef/models/attendance_model.dart';
 
 enum DateRange { day, week, month }
@@ -46,4 +46,4 @@ class AttendanceFilter {
         .where((attendance) => isInDateRange(attendance.date, dateRange))
         .toList();
   }
-}
+}*/

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:graduaatsproef/widgets/attendance_filter.dart';
 
 class AttendanceFilterBar extends StatefulWidget {
@@ -81,4 +81,4 @@ class _AttendanceFilterBarState extends State<AttendanceFilterBar> {
       ],
     );
   }
-}
+}*/
