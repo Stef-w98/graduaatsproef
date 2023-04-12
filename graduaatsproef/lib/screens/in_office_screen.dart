@@ -6,12 +6,12 @@ import 'package:graduaatsproef/widgets/attendance_sheet.dart';
 import 'package:graduaatsproef/widgets/date_picker_widget.dart';
 import 'package:graduaatsproef/widgets/sort_filter_widget.dart';
 
-class AnalyticsScreen extends StatefulWidget {
+class InOfficeScreen extends StatefulWidget {
   @override
-  _AnalyticsScreenState createState() => _AnalyticsScreenState();
+  _InOfficeScreenState createState() => _InOfficeScreenState();
 }
 
-class _AnalyticsScreenState extends State<AnalyticsScreen> {
+class _InOfficeScreenState extends State<InOfficeScreen> {
   DateTime _selectedDate = DateTime.now();
   SortOption _selectedSortOption = SortOption.nameAscending;
 

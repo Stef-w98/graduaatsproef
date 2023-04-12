@@ -9,10 +9,10 @@ class NfcCardsService {
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
-    final cards =
-        response.data!.map((json) => NfcCards.fromJson(json)).toList();
-    cards.forEach(
-        (card) => print('${card.cardId}: ${card.userId} - ${card.cardUid}'));
+    final cards = response.data!
+        .map<NfcCards>(
+            (json) => NfcCards.fromJson(json as Map<String, dynamic>))
+        .toList();
     return cards;
   }
 

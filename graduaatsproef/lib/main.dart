@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduaatsproef/screens/account_management_screen.dart';
-import 'package:graduaatsproef/screens/analytics_screen.dart';
+import 'package:graduaatsproef/screens/in_office_screen.dart';
 import 'package:graduaatsproef/screens/checkinout_screen.dart';
 import 'package:graduaatsproef/screens/home_screen.dart';
 import 'package:graduaatsproef/screens/sign_in_screen.dart';
@@ -12,7 +12,7 @@ class ScreenPath {
   static const String homeScreen = "/homeScreen";
   static const String checkInOutScreen = "/checkInOutScreen";
   static const String accountManagementScreen = "/accountManagementScreen";
-  static const String analyticsScreen = "/analyticsScreen";
+  static const String InOfficeScreen = "/InOfficeScreen";
   static const String signin = "/signin";
   static const String signup = "/signup";
   static const String splashscreen = "/splashscreen";
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
             const BottomAppBarTheme(surfaceTintColor: Color(0xFF4B39EF)),
         primarySwatch: primarySwatch,
       ),
-      home: AnalyticsScreen(),
+      home: InOfficeScreen(),
       initialRoute: '/splashscreen',
       routes: {
         ScreenPath.signin: (context) => const SignInScreen(),
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
         ScreenPath.checkInOutScreen: (context) => const CheckInOutScreen(),
         ScreenPath.accountManagementScreen: (context) =>
             const AccountManagementScreen(),
-        ScreenPath.analyticsScreen: (context) => AnalyticsScreen(),
+        ScreenPath.InOfficeScreen: (context) => InOfficeScreen(),
         ScreenPath.splashscreen: (context) => const SplashScreen(),
         //ScreenPath.notification: (context) => const MedicationNotificationsPage()
       },

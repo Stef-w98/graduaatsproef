@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:graduaatsproef/screens/account_management_screen.dart';
-import 'package:graduaatsproef/screens/analytics_screen.dart';
+import 'package:graduaatsproef/screens/employees_screen.dart';
+import 'package:graduaatsproef/screens/in_office_screen.dart';
 import 'package:graduaatsproef/screens/checkinout_screen.dart';
 import 'package:graduaatsproef/screens/home_screen.dart';
 
 class NavigationPage {
   static const int homeScreen = 0;
   static const int checkInOutScreen = 1;
-  static const int analytics = 2;
-  static const int accountManagementScreen = 3;
+  static const int inOffice = 2;
+  static const int employees = 3;
+  static const int accountManagementScreen = 4;
 
   int index;
   String name;
@@ -43,8 +45,10 @@ class _PageViewControllerState extends State<BottomNavigation> {
           const HomeScreen()),
       NavigationPage(NavigationPage.checkInOutScreen, 'Check In/Out',
           Icons.checklist_outlined, const CheckInOutScreen()),
-      NavigationPage(NavigationPage.analytics, 'analytics',
-          Icons.analytics_outlined, AnalyticsScreen()),
+      NavigationPage(NavigationPage.inOffice, 'In-Office',
+          Icons.business_outlined, InOfficeScreen()),
+      NavigationPage(NavigationPage.employees, 'employees', Icons.people_alt,
+          EmployeeScreen()),
       NavigationPage(NavigationPage.accountManagementScreen, 'Account+',
           Icons.account_circle_outlined, const AccountManagementScreen()),
     ];
