@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import '../utils/decryption_util.dart';
+import '../utils/encryption_util.dart';
 
 class CheckInOutScreen extends StatelessWidget {
-  const CheckInOutScreen({Key? key}) : super(key: key);
+  CheckInOutScreen({Key? key}) : super(key: key);
   final int _currentIndex = 1;
 
   @override
@@ -36,41 +39,43 @@ class CheckInOutScreen extends StatelessWidget {
                     onDiscovered: (NfcTag tag) async {
                       NdefMessage? message = await Ndef.from(tag)?.read();
                       if (message != null) {
-                        String response = String.fromCharCodes(message.records
+                        // Extract the encrypted bytes from the NdefMessage
+                        List<int> encryptedBytes = message.records
                             .expand((record) => record.payload)
-                            .toList());
-                        print('NFC card read: $response');
+                            .toList();
+                        Uint8List encryptedBytesUint8List =
+                            Uint8List.fromList(encryptedBytes);
+                        // Decrypt the UID
+                        Uint8List key = generateRandomBytes(32);
+                        Uint8List iv = generateRandomBytes(16);
+                        String decryptedUid = Decrypt(
+                          encryptedBytesUint8List,
+                          key,
+                          iv,
+                        );
+                        // Show the decrypted UID as text
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('NFC Card Read'),
+                              content: Text(
+                                  'The UID on this card is: $decryptedUid'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       }
                       await NfcManager.instance.stopSession();
                     },
                   );
-                } on Exception catch (e) {
+                } on PlatformException catch (e) {
                   print('Error reading NFC card: $e');
-                }
-              },
-            ),
-            const SizedBox(height: 16),
-            IconButton(
-              icon: const Icon(Icons.nfc),
-              color: Colors.white,
-              iconSize: 72,
-              onPressed: () async {
-                String messageToWrite = 'Hello NFC tag!';
-                try {
-                  await NfcManager.instance.startSession(
-                    onDiscovered: (NfcTag tag) async {
-                      Ndef? ndef = Ndef.from(tag);
-                      if (ndef != null) {
-                        await ndef.write(NdefMessage([
-                          NdefRecord.createText(messageToWrite),
-                        ]));
-                        print('NFC tag written: $messageToWrite');
-                      }
-                      await NfcManager.instance.stopSession();
-                    },
-                  );
-                } on Exception catch (e) {
-                  print('Error writing NFC tag: $e');
                 }
               },
             ),

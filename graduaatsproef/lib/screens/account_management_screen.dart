@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:graduaatsproef/models/users_model.dart';
@@ -107,28 +108,41 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       card_id: 1,
       // Replace with a unique card ID, typically from your backend
       user_Id: userId,
-      card_Uid: encryptedDataAndIV['encryptedData'].toString(),
+      card_Uid: encryptedDataAndIV['encryptedData']!.toString(),
       encryption_Key: key.toString(),
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
 
     // Add the card to the database
-    await DatabaseService()
-        .nfcCardsService
-        .addCard(userId: newUser.id, cardUid: newCard.card_Uid);
+    await DatabaseService().nfcCardsService.addCard(
+        userId: newUser.id, cardUid: generateUID(uidLength).toString());
 
     // Show the WriteNfcDialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return WriteNfcDialog(encryptedUid: newCard.card_Uid);
+        return AlertDialog(
+          title: Text('Write to NFC Card'),
+          content: Text('Please hold your NFC card near the device.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return WriteNfcDialog(
+                        encryptedUid:
+                            encryptedDataAndIV['encryptedData'].toString());
+                  },
+                );
+              },
+              child: Text('Write'),
+            )
+          ],
+        );
       },
-    ).then((_) {
-      // Show a confirmation message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('User created and UID written to NFC card')),
-      );
-    });
+    );
   }
 }

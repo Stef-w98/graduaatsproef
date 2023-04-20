@@ -44,7 +44,7 @@ class _PageViewControllerState extends State<BottomNavigation> {
       NavigationPage(NavigationPage.homeScreen, 'Home', Icons.home_outlined,
           const HomeScreen()),
       NavigationPage(NavigationPage.checkInOutScreen, 'Check In/Out',
-          Icons.checklist_outlined, const CheckInOutScreen()),
+          Icons.checklist_outlined, CheckInOutScreen()),
       NavigationPage(NavigationPage.inOffice, 'In-Office',
           Icons.business_outlined, InOfficeScreen()),
       NavigationPage(NavigationPage.employees, 'employees', Icons.people_alt,
