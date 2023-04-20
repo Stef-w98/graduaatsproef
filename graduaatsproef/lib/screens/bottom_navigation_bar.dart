@@ -50,7 +50,7 @@ class _PageViewControllerState extends State<BottomNavigation> {
       NavigationPage(NavigationPage.employees, 'employees', Icons.people_alt,
           EmployeeScreen()),
       NavigationPage(NavigationPage.accountManagementScreen, 'Account+',
-          Icons.account_circle_outlined, const AccountManagementScreen()),
+          Icons.account_circle_outlined, AccountManagementScreen()),
     ];
   }
 

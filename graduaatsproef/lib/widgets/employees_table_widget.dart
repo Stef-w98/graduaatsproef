@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/models/nfc_cards_model.dart';
+import 'package:graduaatsproef/models/attendance_model.dart';
 import 'package:graduaatsproef/widgets/employee_details_widget.dart';
 
 class EmployeesTable extends StatefulWidget {
   final List<Users> users;
   final List<NfcCards> cards;
+  final List<Attendance> attendance;
 
-  EmployeesTable({required this.users, required this.cards});
+  EmployeesTable(
+      {required this.users, required this.cards, required this.attendance});
 
   @override
   _EmployeesTableState createState() => _EmployeesTableState();
@@ -66,8 +69,11 @@ class _EmployeesTableState extends State<EmployeesTable> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    EmployeeDetails(user: user, cards: widget.cards),
+                builder: (context) => EmployeeDetails(
+                  user: user,
+                  cards: widget.cards,
+                  attendances: widget.attendance,
+                ),
               ),
             );
           },

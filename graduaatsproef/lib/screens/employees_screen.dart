@@ -85,7 +85,11 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
           const SizedBox(height: 16),
           Expanded(
             child: SingleChildScrollView(
-              child: EmployeesTable(users: filteredUsers, cards: _cards!),
+              child: EmployeesTable(
+                users: filteredUsers,
+                cards: _cards!,
+                attendance: [],
+              ),
             ),
           ),
         ],

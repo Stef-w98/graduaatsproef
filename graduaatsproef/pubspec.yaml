@@ -37,7 +37,7 @@ dependencies:
   google_fonts: ^4.0.3
   uuid: ^3.0.4
   intl: ^0.17.0
-
+  pointycastle: ^3.3.0
 
 dev_dependencies:
   flutter_test:

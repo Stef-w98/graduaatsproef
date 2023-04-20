@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateRangePicker extends StatefulWidget {
-  const DateRangePicker({Key? key}) : super(key: key);
+  final ValueChanged<DateTimeRange?> onDateRangeChanged;
+
+  DateRangePicker({required this.onDateRangeChanged});
 
   @override
   _DateRangePickerState createState() => _DateRangePickerState();
@@ -10,7 +12,14 @@ class DateRangePicker extends StatefulWidget {
 
 class _DateRangePickerState extends State<DateRangePicker> {
   DateTime _selectedDate = DateTime.now();
-  String _selectedRange = '';
+  DateTimeRange? _selectedRange;
+
+  void _updateSelectedRange(DateTimeRange newRange) {
+    setState(() {
+      _selectedRange = newRange;
+    });
+    widget.onDateRangeChanged(_selectedRange);
+  }
 
   void _selectWeek(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -20,14 +29,11 @@ class _DateRangePickerState extends State<DateRangePicker> {
       lastDate: DateTime(_selectedDate.year + 5),
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-        final weekStart =
-            pickedDate.subtract(Duration(days: pickedDate.weekday - 1));
-        final weekEnd = weekStart.add(Duration(days: 6));
-        _selectedRange =
-            '${DateFormat('MMM d, yyyy').format(weekStart)} - ${DateFormat('MMM d, yyyy').format(weekEnd)}';
-      });
+      _selectedDate = pickedDate;
+      final weekStart =
+          pickedDate.subtract(Duration(days: pickedDate.weekday - 1));
+      final weekEnd = weekStart.add(Duration(days: 6));
+      _updateSelectedRange(DateTimeRange(start: weekStart, end: weekEnd));
     }
   }
 
@@ -40,10 +46,10 @@ class _DateRangePickerState extends State<DateRangePicker> {
       initialDatePickerMode: DatePickerMode.year,
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-        _selectedRange = DateFormat('MMMM yyyy').format(_selectedDate);
-      });
+      _selectedDate = pickedDate;
+      final monthStart = DateTime(pickedDate.year, pickedDate.month, 1);
+      final monthEnd = DateTime(pickedDate.year, pickedDate.month + 1, 0);
+      _updateSelectedRange(DateTimeRange(start: monthStart, end: monthEnd));
     }
   }
 
@@ -56,10 +62,10 @@ class _DateRangePickerState extends State<DateRangePicker> {
       initialDatePickerMode: DatePickerMode.year,
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-        _selectedRange = DateFormat('yyyy').format(_selectedDate);
-      });
+      _selectedDate = pickedDate;
+      final yearStart = DateTime(pickedDate.year, 1, 1);
+      final yearEnd = DateTime(pickedDate.year + 1, 1, 0);
+      _updateSelectedRange(DateTimeRange(start: yearStart, end: yearEnd));
     }
   }
 
@@ -68,7 +74,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
     return Column(
       children: [
         Text(
-          'Selected Range: $_selectedRange',
+          'Selected Range: ${_selectedRange != null ? DateFormat('MMM d, yyyy').format(_selectedRange!.start) + ' - ' + DateFormat('MMM d, yyyy').format(_selectedRange!.end) : 'Not selected'}',
           style: TextStyle(color: Colors.white),
         ),
         Row(

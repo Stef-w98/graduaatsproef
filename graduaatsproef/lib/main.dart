@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
         ScreenPath.homeScreen: (context) => const HomeScreen(),
         ScreenPath.checkInOutScreen: (context) => const CheckInOutScreen(),
         ScreenPath.accountManagementScreen: (context) =>
-            const AccountManagementScreen(),
+            AccountManagementScreen(),
         ScreenPath.InOfficeScreen: (context) => InOfficeScreen(),
         ScreenPath.splashscreen: (context) => const SplashScreen(),
         //ScreenPath.notification: (context) => const MedicationNotificationsPage()
