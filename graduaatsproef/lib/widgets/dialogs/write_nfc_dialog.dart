@@ -3,8 +3,9 @@ import 'package:nfc_manager/nfc_manager.dart';
 
 class WriteNfcDialog extends StatefulWidget {
   final String encryptedUid;
+  final DateTime time;
 
-  WriteNfcDialog({required this.encryptedUid});
+  WriteNfcDialog({required this.encryptedUid, required this.time});
 
   @override
   _WriteNfcDialogState createState() => _WriteNfcDialogState();
@@ -26,6 +27,7 @@ class _WriteNfcDialogState extends State<WriteNfcDialog> {
                   if (ndef != null) {
                     await ndef.write(NdefMessage([
                       NdefRecord.createText(widget.encryptedUid),
+                      NdefRecord.createText(widget.time.toString())
                     ]));
                     print('NFC tag written: ${widget.encryptedUid}');
                   }

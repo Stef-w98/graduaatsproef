@@ -11,8 +11,7 @@ class EncryptionService {
     required Uint8List iv,
     required DateTime createdAt,
   }) async {
-    final response = await supabase.from('encryption').insert({
-      'user_id': userId,
+    final response = await supabase.from('encryption_key').insert({
       'key': base64.encode(key),
       'iv': base64.encode(iv),
       'created_at': createdAt.toIso8601String(),

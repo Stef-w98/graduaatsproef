@@ -19,6 +19,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   String _firstName = '';
   String _lastName = '';
   String _email = '';
+  DateTime time = DateTime.now();
   final key = generateRandomBytes(32);
 
   @override
@@ -109,14 +110,28 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       // Replace with a unique card ID, typically from your backend
       user_Id: userId,
       card_Uid: encryptedDataAndIV['encryptedData']!.toString(),
-      encryption_Key: key.toString(),
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      encryption_Key: '',
     );
 
     // Add the card to the database
     await DatabaseService().nfcCardsService.addCard(
-        userId: newUser.id, cardUid: generateUID(uidLength).toString());
+        userId: newUser.id,
+        cardUid: encryptedDataAndIV['encryptedData']!.toString());
+
+    // Save the key, iv, and time to the encryption table
+    if (encryptedDataAndIV.containsKey('encryptedData') &&
+        encryptedDataAndIV.containsKey('iv')) {
+      time = DateTime.now();
+      await DatabaseService().encryptionService.addEncryptionKey(
+          userId: userId,
+          key: encryptedDataAndIV['encryptedData']!,
+          iv: encryptedDataAndIV['iv']!,
+          createdAt: time);
+    } else {
+      print('error: Key or IV empty');
+    }
 
     // Show the WriteNfcDialog
     showDialog(
@@ -133,8 +148,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                   context: context,
                   builder: (BuildContext context) {
                     return WriteNfcDialog(
-                        encryptedUid:
-                            encryptedDataAndIV['encryptedData'].toString());
+                      encryptedUid:
+                          encryptedDataAndIV['encryptedData'].toString(),
+                      time: time,
+                    );
                   },
                 );
               },
