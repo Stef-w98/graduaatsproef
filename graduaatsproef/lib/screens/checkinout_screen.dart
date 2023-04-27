@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graduaatsproef/services/database/database_service.dart';
+import 'package:graduaatsproef/services/database/database_tables/encryption_service.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+
 import '../utils/decryption_util.dart';
 import '../utils/encryption_util.dart';
 
@@ -34,33 +39,34 @@ class CheckInOutScreen extends StatelessWidget {
               iconSize: 72,
               onPressed: () async {
                 try {
-                  // Start session
                   await NfcManager.instance.startSession(
                     onDiscovered: (NfcTag tag) async {
                       NdefMessage? message = await Ndef.from(tag)?.read();
                       if (message != null) {
-                        // Extract the encrypted bytes from the NdefMessage
-                        List<int> encryptedBytes = message.records
-                            .expand((record) => record.payload)
-                            .toList();
-                        Uint8List encryptedBytesUint8List =
-                            Uint8List.fromList(encryptedBytes);
-                        // Decrypt the UID
-                        Uint8List key = generateRandomBytes(32);
-                        Uint8List iv = generateRandomBytes(16);
-                        String decryptedUid = Decrypt(
-                          encryptedBytesUint8List,
-                          key,
-                          iv,
+                        String encryptedUid =
+                            String.fromCharCodes(message.records[0].payload);
+                        String dateTimeString =
+                            String.fromCharCodes(message.records[1].payload);
+
+                        // Remove unwanted characters from payload strings
+                        encryptedUid = encryptedUid.replaceAll(',', '');
+                        encryptedUid =
+                            encryptedUid.substring(4, encryptedUid.length - 1);
+                        dateTimeString = dateTimeString.substring(3);
+
+                        String decryptedUid = await decryptUid(
+                          encryptedUid,
+                          dateTimeString,
                         );
-                        // Show the decrypted UID as text
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('NFC Card Read'),
                               content: Text(
-                                  'The UID on this card is: $decryptedUid'),
+                                'The UID on this card is: $decryptedUid\n'
+                                'The date and time when the card was written was: $dateTimeString',
+                              ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.of(context).pop(),

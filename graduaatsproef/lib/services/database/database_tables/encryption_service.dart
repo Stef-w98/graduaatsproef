@@ -22,12 +22,11 @@ class EncryptionService {
     return response.data!.first['encryption_id'];
   }
 
-  Future<EncryptionKey> getEncryptionKey(int userId) async {
+  Future<EncryptionKey> getEncryptionKey(String createTime) async {
     final response = await supabase
-        .from('encryption')
+        .from('encryption_key')
         .select()
-        .eq('user_id', userId)
-        .order('created_at', ascending: false)
+        .eq('created_at', createTime)
         .limit(1)
         .execute();
     if (response.error != null) {
@@ -38,7 +37,6 @@ class EncryptionService {
     final iv = base64.decode(data['iv']);
     return EncryptionKey(
       id: data['encryption_id'],
-      userId: data['user_id'],
       key: key,
       iv: iv,
       createdAt: DateTime.parse(data['created_at']),
@@ -74,14 +72,12 @@ class EncryptionService {
 
 class EncryptionKey {
   final int id;
-  final int userId;
   final Uint8List key;
   final Uint8List iv;
   final DateTime createdAt;
 
   EncryptionKey({
     required this.id,
-    required this.userId,
     required this.key,
     required this.iv,
     required this.createdAt,
@@ -90,7 +86,6 @@ class EncryptionKey {
   factory EncryptionKey.fromJson(Map<String, dynamic> json) {
     return EncryptionKey(
       id: json['encryption_id'],
-      userId: json['user_id'],
       key: base64.decode(json['key']),
       iv: base64.decode(json['iv']),
       createdAt: DateTime.parse(json['created_at']),
