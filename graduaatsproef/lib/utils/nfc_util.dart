@@ -10,6 +10,6 @@ String generateUID(int length) {
 
 Map<String, Uint8List> generateAndEncryptUID(int length, Uint8List key) {
   String uid = generateUID(length);
-  Map<String, Uint8List> encryptedDataAndIV = Encrypt(uid, key);
+  Map<String, Uint8List> encryptedDataAndIV = encrypt(uid, key);
   return encryptedDataAndIV;
 }

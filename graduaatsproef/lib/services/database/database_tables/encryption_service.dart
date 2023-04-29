@@ -11,8 +11,10 @@ class EncryptionService {
     required Uint8List iv,
     required DateTime createdAt,
   }) async {
+    final encodedkey = base64.encode(key);
+    final decode = base64.decode(encodedkey);
     final response = await supabase.from('encryption_key').insert({
-      'key': base64.encode(key),
+      'key': encodedkey,
       'iv': base64.encode(iv),
       'created_at': createdAt.toIso8601String(),
     }).execute();

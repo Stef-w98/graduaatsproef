@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -49,22 +50,29 @@ class CheckInOutScreen extends StatelessWidget {
                             String.fromCharCodes(message.records[1].payload);
 
                         // Remove unwanted characters from payload strings
-                        encryptedUid = encryptedUid.replaceAll(',', '');
-                        encryptedUid =
-                            encryptedUid.substring(4, encryptedUid.length - 1);
+                        //encryptedUid = encryptedUid.replaceAll(',', '');
+                        //encryptedUid =
+                        //    encryptedUid.substring(4, encryptedUid.length - 1);
                         dateTimeString = dateTimeString.substring(3);
+                        encryptedUid = encryptedUid.replaceAll(
+                            RegExp(r'[^\d,]'),
+                            ''); // remove non-digits and commas
+                        List<String> uidList = encryptedUid.split(",");
+                        List<int> uidIntList = uidList.map(int.parse).toList();
+                        Uint8List bytesuid = Uint8List.fromList(uidIntList);
 
-                        String decryptedUid = await decryptUid(
-                          encryptedUid,
+                        final decryptedUid = await decryptUid(
+                          bytesuid,
                           dateTimeString,
                         );
+                        String test123 = utf8.decode(decryptedUid);
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('NFC Card Read'),
                               content: Text(
-                                'The UID on this card is: $decryptedUid\n'
+                                'The UID on this card is: $test123, $decryptedUid\n'
                                 'The date and time when the card was written was: $dateTimeString',
                               ),
                               actions: [
