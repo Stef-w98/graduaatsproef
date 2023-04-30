@@ -11,15 +11,19 @@ Future<Uint8List> decryptUid(Uint8List encryptedUid, String time) async {
 
   final key = encryptionKey.key;
   final iv = encryptionKey.iv;
-
+  print('DECRYPTION: ');
+  print('decrypt encryptedUid: ' '$encryptedUid');
+  print('decrypt key: ' '$key');
+  print('decrypt iv: ' '$iv');
   final params = PaddedBlockCipherParameters(
       ParametersWithIV<KeyParameter>(KeyParameter(key), iv), null);
   final cipher =
       PaddedBlockCipherImpl(PKCS7Padding(), CBCBlockCipher(AESEngine()));
-  cipher.init(true, params);
+  cipher.init(false, params);
 
   final decryptedBytes = cipher.process(encryptedUid);
-
+  print('decrypt decryptedBytes: ' '$decryptedBytes');
+  print('to string: ' '${utf8.decode(decryptedBytes)}');
   return decryptedBytes;
 }
 

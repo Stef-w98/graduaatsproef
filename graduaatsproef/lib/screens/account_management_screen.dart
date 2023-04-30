@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/dialogs/write_nfc_dialog.dart';
+import 'package:uuid/uuid.dart';
 import '../models/nfc_cards_model.dart';
 import '../utils/encryption_util.dart';
 import '../utils/nfc_util.dart';
@@ -100,9 +101,11 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     );
 
     // Generate and encrypt the UID
-    int uidLength = 10;
-    Map<String, Uint8List> encryptedDataAndIV =
-        generateAndEncryptUID(uidLength, key);
+    //int uidLength = 10;
+    //Map<String, Uint8List> encryptedDataAndIV =
+    //    generateAndEncryptUID(uidLength, key);
+    final uid = Uuid().v4();
+    final encryptedDataAndIV = encrypt(uid, key);
 
     // Create a new NFC card entry
     NfcCards newCard = NfcCards(
@@ -126,7 +129,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       time = DateTime.now();
       await DatabaseService().encryptionService.addEncryptionKey(
           userId: userId,
-          key: encryptedDataAndIV['encryptedData']!,
+          key: encryptedDataAndIV['key']!,
           iv: encryptedDataAndIV['iv']!,
           createdAt: time);
     } else {
@@ -137,27 +140,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Write to NFC Card'),
-          content: Text('Please hold your NFC card near the device.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return WriteNfcDialog(
-                      encryptedUid:
-                          encryptedDataAndIV['encryptedData'].toString(),
-                      time: time,
-                    );
-                  },
-                );
-              },
-              child: Text('Write'),
-            )
-          ],
+        return WriteNfcDialog(
+          encryptedUid: encryptedDataAndIV['encryptedData'].toString(),
+          time: time,
         );
       },
     );
