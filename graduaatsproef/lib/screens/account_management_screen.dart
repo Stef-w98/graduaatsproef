@@ -28,7 +28,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF1A1F24),
       appBar: AppBar(
-        title: const Text('Analytics'),
+        title: const Text('Add Account'),
         backgroundColor: const Color(0xFF090F13),
       ),
       body: Padding(
@@ -38,7 +38,12 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'First Name'),
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                  labelStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a first name';
@@ -48,7 +53,12 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 onSaved: (value) => _firstName = value ?? '',
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Last Name'),
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                  labelStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a last name';
@@ -58,7 +68,12 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 onSaved: (value) => _lastName = value ?? '',
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
