@@ -1,14 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:graduaatsproef/services/database/database_service.dart';
-import 'package:graduaatsproef/services/database/database_tables/encryption_service.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-
 import '../utils/decryption_util.dart';
-import '../utils/encryption_util.dart';
+import '../widgets/dialogs/read_nfc_dialog.dart';
 
 class CheckInOutScreen extends StatelessWidget {
   CheckInOutScreen({Key? key}) : super(key: key);
@@ -38,64 +34,52 @@ class CheckInOutScreen extends StatelessWidget {
                 color: Colors.white,
               ),
               iconSize: 72,
-              onPressed: () async {
-                try {
-                  await NfcManager.instance.startSession(
-                    onDiscovered: (NfcTag tag) async {
-                      NdefMessage? message = await Ndef.from(tag)?.read();
-                      if (message != null) {
-                        String encryptedUid =
-                            String.fromCharCodes(message.records[0].payload);
-                        String dateTimeString =
-                            String.fromCharCodes(message.records[1].payload);
-
-                        // Remove unwanted characters from payload strings
-                        //encryptedUid = encryptedUid.replaceAll(',', '');
-                        //encryptedUid =
-                        //    encryptedUid.substring(4, encryptedUid.length - 1);
-                        dateTimeString = dateTimeString.substring(3);
-                        encryptedUid = encryptedUid.replaceAll(
-                            RegExp(r'[^\d,]'),
-                            ''); // remove non-digits and commas
-                        List<String> uidList = encryptedUid.split(",");
-                        List<int> uidIntList = uidList.map(int.parse).toList();
-                        Uint8List bytesuid = Uint8List.fromList(uidIntList);
-
-                        final decryptedUid = await decryptUid(
-                          bytesuid,
-                          dateTimeString,
-                        );
-                        String test123 = utf8.decode(decryptedUid);
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('NFC Card Read'),
-                              content: Text(
-                                'The UID on this card is: $test123, $decryptedUid\n'
-                                'The date and time when the card was written was: $dateTimeString',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                      await NfcManager.instance.stopSession();
-                    },
-                  );
-                } on PlatformException catch (e) {
-                  print('Error reading NFC card: $e');
-                }
-              },
+              onPressed: () => readNfcCard(context),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> readNfcCard(BuildContext context) async {
+    try {
+      await NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          NdefMessage? message = await Ndef.from(tag)?.read();
+          if (message != null) {
+            String encryptedUid =
+                String.fromCharCodes(message.records[0].payload);
+            String dateTimeString =
+                String.fromCharCodes(message.records[1].payload);
+
+            dateTimeString = dateTimeString.substring(3);
+            encryptedUid = encryptedUid.replaceAll(
+                RegExp(r'[^\d,]'), ''); // remove non-digits and commas
+            List<String> uidList = encryptedUid.split(",");
+            List<int> uidIntList = uidList.map(int.parse).toList();
+            Uint8List bytesuid = Uint8List.fromList(uidIntList);
+
+            final decryptedUid = await decryptUid(
+              bytesuid,
+              dateTimeString,
+            );
+            String test123 = utf8.decode(decryptedUid);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ReadNfcDialog(
+                  uid: test123,
+                  dateTimeString: dateTimeString,
+                ),
+              ),
+            );
+          }
+          await NfcManager.instance.stopSession();
+        },
+      );
+    } on PlatformException catch (e) {
+      print('Error reading NFC card: $e');
+    }
   }
 }

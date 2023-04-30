@@ -11,10 +11,7 @@ Future<Uint8List> decryptUid(Uint8List encryptedUid, String time) async {
 
   final key = encryptionKey.key;
   final iv = encryptionKey.iv;
-  print('DECRYPTION: ');
-  print('decrypt encryptedUid: ' '$encryptedUid');
-  print('decrypt key: ' '$key');
-  print('decrypt iv: ' '$iv');
+
   final params = PaddedBlockCipherParameters(
       ParametersWithIV<KeyParameter>(KeyParameter(key), iv), null);
   final cipher =

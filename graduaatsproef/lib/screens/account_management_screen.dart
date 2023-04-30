@@ -5,9 +5,8 @@ import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/dialogs/write_nfc_dialog.dart';
 import 'package:uuid/uuid.dart';
-import '../models/nfc_cards_model.dart';
-import '../utils/encryption_util.dart';
-import '../utils/nfc_util.dart';
+import 'package:graduaatsproef/models/nfc_cards_model.dart';
+import 'package:graduaatsproef/utils/encryption_util.dart';
 
 class AccountManagementScreen extends StatefulWidget {
   @override
