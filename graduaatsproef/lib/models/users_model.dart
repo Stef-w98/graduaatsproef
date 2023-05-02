@@ -5,6 +5,7 @@ class Users {
   final String email;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final bool checkedIn;
 
   Users({
     required this.id,
@@ -13,6 +14,7 @@ class Users {
     required this.email,
     required this.createdAt,
     required this.updatedAt,
+    required this.checkedIn,
   });
 
   factory Users.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Users {
       email: json['email'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
+      checkedIn: json['checked_in'],
     );
   }
 }

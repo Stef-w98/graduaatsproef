@@ -12,7 +12,7 @@ class UsersService {
     final userMaps = List<Map<String, dynamic>>.from(response.data!);
     final users = userMaps.map((map) => Users.fromJson(map)).toList();
     users.forEach((user) => print(
-        '${user.id}: ${user.firstName} ${user.lastName} - ${user.email}'));
+        '${user.id}: ${user.firstName} ${user.lastName} - ${user.email} - ${user.checkedIn}'));
     return users;
   }
 
@@ -20,11 +20,13 @@ class UsersService {
     required String firstName,
     required String lastName,
     required String email,
+    required bool checkedIn,
   }) async {
     final response = await supabase.from('users').insert({
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
+      'checked_in': checkedIn,
     }).execute();
     if (response.error != null) {
       throw Exception(response.error!.message);
@@ -37,6 +39,7 @@ class UsersService {
     String? firstName,
     String? lastName,
     String? email,
+    bool? checkedIn,
   }) async {
     final updates = <String, dynamic>{};
     if (firstName != null) {
@@ -47,6 +50,9 @@ class UsersService {
     }
     if (email != null) {
       updates['email'] = email;
+    }
+    if (checkedIn != null) {
+      updates['checked_in'] = checkedIn;
     }
     final response = await supabase
         .from('users')

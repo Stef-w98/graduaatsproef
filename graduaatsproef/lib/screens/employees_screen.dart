@@ -76,6 +76,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
         backgroundColor: const Color(0xFF090F13),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 16),
           Padding(

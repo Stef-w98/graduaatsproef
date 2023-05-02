@@ -99,10 +99,13 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   }
 
   void _createUserAndWriteCard() async {
+    bool checkedin = false;
     // Add the user to the database
-    int userId = await DatabaseService()
-        .usersService
-        .addUser(firstName: _firstName, lastName: _lastName, email: _email);
+    int userId = await DatabaseService().usersService.addUser(
+        firstName: _firstName,
+        lastName: _lastName,
+        email: _email,
+        checkedIn: checkedin);
 
     // Create a new user
     Users newUser = Users(
@@ -112,6 +115,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       email: _email,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      checkedIn: checkedin,
     );
 
     // Generate and encrypt the UID

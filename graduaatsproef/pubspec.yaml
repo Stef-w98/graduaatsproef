@@ -38,6 +38,7 @@ dependencies:
   uuid: ^3.0.4
   intl: ^0.17.0
   pointycastle: ^3.3.0
+  crypto: ^3.0.2
 
 dev_dependencies:
   flutter_test:

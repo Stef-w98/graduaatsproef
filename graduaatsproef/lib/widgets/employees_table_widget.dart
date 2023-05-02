@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/models/nfc_cards_model.dart';
 import 'package:graduaatsproef/models/attendance_model.dart';
 import 'package:graduaatsproef/widgets/employee_details_widget.dart';
+import 'package:crypto/crypto.dart';
 
 class EmployeesTable extends StatefulWidget {
   final List<Users> users;
@@ -21,11 +24,17 @@ class _EmployeesTableState extends State<EmployeesTable> {
 
   @override
   Widget build(BuildContext context) {
+    var bytes = utf8.encode('1dfd65a8');
+    var hashfull = sha512.convert(bytes);
+    var hash = sha512256.convert(bytes);
+    print('hash long: $hashfull');
+    print('hash short: $hash');
+
     return DataTable(
       headingTextStyle:
           TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       dataTextStyle: TextStyle(color: Colors.white),
-      columns: [
+      columns: const [
         DataColumn(label: Text('User ID')),
         DataColumn(label: Text('Name')),
         DataColumn(label: Text('Email')),
