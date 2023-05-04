@@ -75,4 +75,22 @@ class AttendanceService {
       throw Exception(response.error!.message);
     }
   }
+
+  Future<Attendance?> getLastAttendance(String userId) async {
+    final response = await supabase
+        .from('attendance')
+        .select('*')
+        .eq('user_id', userId)
+        .order('check_in_time', ascending: false)
+        .limit(1)
+        .execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    final data = response.data;
+    if (data == null || data.isEmpty) {
+      return null;
+    }
+    return Attendance.fromJson(data.first);
+  }
 }

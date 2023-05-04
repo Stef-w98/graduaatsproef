@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graduaatsproef/utils/checkin_util.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import '../utils/decryption_util.dart';
 import '../widgets/dialogs/read_nfc_dialog.dart';
@@ -65,6 +66,7 @@ class CheckInOutScreen extends StatelessWidget {
               dateTimeString,
             );
             String test123 = utf8.decode(decryptedUid);
+            CheckInOutUtils.checkInOut(test123);
             Navigator.push(
               context,
               MaterialPageRoute(

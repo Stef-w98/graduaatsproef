@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
@@ -124,6 +125,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     //    generateAndEncryptUID(uidLength, key);
     final uid = Uuid().v4();
     final encryptedDataAndIV = encrypt(uid, key);
+    final hashedUid = sha512256.convert(utf8.encode(uid)).toString();
 
     // Create a new NFC card entry
     NfcCards newCard = NfcCards(
@@ -137,9 +139,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
     );
 
     // Add the card to the database
-    await DatabaseService().nfcCardsService.addCard(
-        userId: newUser.id,
-        cardUid: encryptedDataAndIV['encryptedData']!.toString());
+    await DatabaseService()
+        .nfcCardsService
+        .addCard(userId: newUser.id, cardUid: hashedUid);
 
     // Save the key, iv, and time to the encryption table
     if (encryptedDataAndIV.containsKey('encryptedData') &&

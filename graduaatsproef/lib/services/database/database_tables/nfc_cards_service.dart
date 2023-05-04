@@ -60,4 +60,20 @@ class NfcCardsService {
       throw Exception(response.error!.message);
     }
   }
+
+  Future<String?> lookupNfcCard(String hashedUid) async {
+    final response = await supabase
+        .from('nfc_cards')
+        .select('user_id')
+        .eq('card_uid', hashedUid)
+        .execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    final data = response.data as List<dynamic>;
+    if (data.isEmpty) {
+      return null;
+    }
+    return data.first['user_id'].toString();
+  }
 }

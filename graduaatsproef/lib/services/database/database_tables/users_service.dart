@@ -71,4 +71,18 @@ class UsersService {
       throw Exception(response.error!.message);
     }
   }
+
+  Future<Map<String, dynamic>?> getUserData(String userId) async {
+    final response = await supabase
+        .from('users')
+        .select('user_id, first_name, last_name, email, checked_in')
+        .eq('user_id', userId)
+        .single()
+        .execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    final data = response.data as Map<String, dynamic>?;
+    return data;
+  }
 }
