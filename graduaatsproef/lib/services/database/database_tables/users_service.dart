@@ -20,12 +20,20 @@ class UsersService {
     required String firstName,
     required String lastName,
     required String email,
+    required String address,
+    required String city,
+    required String zipcode,
+    required String country,
     required bool checkedIn,
   }) async {
     final response = await supabase.from('users').insert({
       'first_name': firstName,
       'last_name': lastName,
       'email': email,
+      'address': address,
+      'city': city,
+      'zip_code': zipcode,
+      'country': country,
       'checked_in': checkedIn,
     }).execute();
     if (response.error != null) {
@@ -39,6 +47,10 @@ class UsersService {
     String? firstName,
     String? lastName,
     String? email,
+    String? address,
+    String? city,
+    String? zipcode,
+    String? country,
     bool? checkedIn,
   }) async {
     final updates = <String, dynamic>{};
@@ -50,6 +62,18 @@ class UsersService {
     }
     if (email != null) {
       updates['email'] = email;
+    }
+    if (address != null) {
+      updates['address'] = address;
+    }
+    if (city != null) {
+      updates['city'] = city;
+    }
+    if (zipcode != null) {
+      updates['zipcode'] = zipcode;
+    }
+    if (country != null) {
+      updates['country'] = country;
     }
     if (checkedIn != null) {
       updates['checked_in'] = checkedIn;
@@ -75,7 +99,8 @@ class UsersService {
   Future<Map<String, dynamic>?> getUserData(String userId) async {
     final response = await supabase
         .from('users')
-        .select('user_id, first_name, last_name, email, checked_in')
+        .select(
+            'user_id, first_name, last_name, email, checked_in, address, city, zip_code, country')
         .eq('user_id', userId)
         .single()
         .execute();

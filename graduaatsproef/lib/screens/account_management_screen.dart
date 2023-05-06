@@ -1,9 +1,9 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
+import 'package:graduaatsproef/widgets/country_code_picker_widget.dart';
 import 'package:graduaatsproef/widgets/dialogs/write_nfc_dialog.dart';
-import 'package:graduaatsproef/utils/encryption_util.dart';
 
 class AccountManagementScreen extends StatefulWidget {
   @override
@@ -16,6 +16,12 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   String _firstName = '';
   String _lastName = '';
   String _email = '';
+  String _address = '';
+  String _city = '';
+  String _zipcode = '';
+  String countryname = '';
+  CountryCode _selectedCountry = CountryCode.fromCountryCode('BE');
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +82,50 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _email = value ?? '',
               ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  labelStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an address';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _address = value ?? '',
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'City',
+                  labelStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a city';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _city = value ?? '',
+              ),
+              CountryCodePickerWidget(
+                onCountryChanged: (CountryCode code) {
+                  setState(() {
+                    _selectedCountry = code;
+                    countryname = code.name.toString();
+                  });
+                },
+                phoneController: _phoneController,
+              ),
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
+                  print(_selectedCountry);
+                  print(countryname);
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     _createUserAndWriteCard();
@@ -95,19 +142,25 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
 
   void _createUserAndWriteCard() async {
     bool checkedin = false;
-    // Add the user to the database
     int userId = await DatabaseService().usersService.addUser(
         firstName: _firstName,
         lastName: _lastName,
         email: _email,
+        address: _address,
+        city: _city,
+        country: _selectedCountry.name.toString(),
+        zipcode: _zipcode,
         checkedIn: checkedin);
 
-    // Create a new user
     Users newUser = Users(
       id: userId,
       firstName: _firstName,
       lastName: _lastName,
       email: _email,
+      address: _address,
+      city: _city,
+      countryname: _selectedCountry.name.toString(),
+      zipcode: _zipcode,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       checkedIn: checkedin,
