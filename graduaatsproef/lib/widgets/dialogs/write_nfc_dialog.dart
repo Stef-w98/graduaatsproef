@@ -161,7 +161,6 @@ class _WriteNfcDialogState extends State<WriteNfcDialog> {
   Future<void> nfcCardToDatabase() async {
     final hashedUid = sha512256.convert(utf8.encode(uid!)).toString();
 
-    // Add the card to the database
     await DatabaseService()
         .nfcCardsService
         .addCard(userId: widget.userId, cardUid: hashedUid);
