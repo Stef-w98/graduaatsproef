@@ -1,12 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/dialogs/write_nfc_dialog.dart';
-import 'package:uuid/uuid.dart';
-import 'package:graduaatsproef/models/nfc_cards_model.dart';
 import 'package:graduaatsproef/utils/encryption_util.dart';
 
 class AccountManagementScreen extends StatefulWidget {
@@ -20,8 +16,6 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   String _firstName = '';
   String _lastName = '';
   String _email = '';
-  DateTime time = DateTime.now();
-  final key = generateRandomBytes(32);
 
   @override
   Widget build(BuildContext context) {
@@ -119,51 +113,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       checkedIn: checkedin,
     );
 
-    // Generate and encrypt the UID
-    //int uidLength = 10;
-    //Map<String, Uint8List> encryptedDataAndIV =
-    //    generateAndEncryptUID(uidLength, key);
-    final uid = Uuid().v4();
-    final encryptedDataAndIV = encrypt(uid, key);
-    final hashedUid = sha512256.convert(utf8.encode(uid)).toString();
-
-    // Create a new NFC card entry
-    NfcCards newCard = NfcCards(
-      card_id: 1,
-      // Replace with a unique card ID, typically from your backend
-      user_Id: userId,
-      card_Uid: encryptedDataAndIV['encryptedData']!.toString(),
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      encryption_Key: '',
-    );
-
-    // Add the card to the database
-    await DatabaseService()
-        .nfcCardsService
-        .addCard(userId: newUser.id, cardUid: hashedUid);
-
-    // Save the key, iv, and time to the encryption table
-    if (encryptedDataAndIV.containsKey('encryptedData') &&
-        encryptedDataAndIV.containsKey('iv')) {
-      time = DateTime.now();
-      await DatabaseService().encryptionService.addEncryptionKey(
-          userId: userId,
-          key: encryptedDataAndIV['key']!,
-          iv: encryptedDataAndIV['iv']!,
-          createdAt: time);
-    } else {
-      print('error: Key or IV empty');
-    }
-
-    // Show the WriteNfcDialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return WriteNfcDialog(
-          encryptedUid: encryptedDataAndIV['encryptedData'].toString(),
-          time: time,
-        );
+        return WriteNfcDialog(userId: newUser.id);
       },
     );
   }

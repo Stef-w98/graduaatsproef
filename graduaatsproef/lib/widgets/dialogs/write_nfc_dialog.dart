@@ -1,12 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graduaatsproef/services/database/database_service.dart';
+import 'package:hex/hex.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_manager/platform_tags.dart';
 
 class WriteNfcDialog extends StatefulWidget {
-  final String encryptedUid;
-  final DateTime time;
+  final int userId;
 
-  WriteNfcDialog({required this.encryptedUid, required this.time});
+  WriteNfcDialog({required this.userId});
 
   @override
   _WriteNfcDialogState createState() => _WriteNfcDialogState();
@@ -16,6 +21,7 @@ class _WriteNfcDialogState extends State<WriteNfcDialog> {
   bool _isWriting = false;
   bool _isWritten = false;
   bool _isError = false;
+  String? uid = '';
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +85,9 @@ class _WriteNfcDialogState extends State<WriteNfcDialog> {
       await NfcManager.instance.startSession(
         onDiscovered: (NfcTag tag) async {
           try {
-            Ndef? ndef = Ndef.from(tag);
-            if (ndef != null) {
-              await ndef.write(NdefMessage([
-                NdefRecord.createText(widget.encryptedUid),
-                NdefRecord.createText(widget.time.toString())
-              ]));
+            NfcA? nfcA = NfcA.from(tag);
+            if (nfcA != null) {
+              uid = await readNfcCard();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('NFC tag written')),
               );
@@ -111,6 +114,7 @@ class _WriteNfcDialogState extends State<WriteNfcDialog> {
               _isError = true;
             });
           } finally {
+            nfcCardToDatabase();
             await NfcManager.instance.stopSession();
           }
         },
@@ -133,5 +137,33 @@ class _WriteNfcDialogState extends State<WriteNfcDialog> {
       _isError = false;
     });
     await _writeToNfc();
+  }
+
+  Future<String> readNfcCard() async {
+    final completer = Completer<String>();
+    try {
+      await NfcManager.instance.startSession(
+        onDiscovered: (NfcTag tag) async {
+          NfcA? nfcA = NfcA.from(tag);
+          Uint8List? uid = nfcA?.identifier;
+          String uidHexString = HEX.encode(uid!);
+
+          await NfcManager.instance.stopSession();
+          completer.complete(uidHexString);
+        },
+      );
+    } on PlatformException catch (e) {
+      print('Error reading uid on NFC card: $e');
+    }
+    return completer.future;
+  }
+
+  Future<void> nfcCardToDatabase() async {
+    final hashedUid = sha512256.convert(utf8.encode(uid!)).toString();
+
+    // Add the card to the database
+    await DatabaseService()
+        .nfcCardsService
+        .addCard(userId: widget.userId, cardUid: hashedUid);
   }
 }
