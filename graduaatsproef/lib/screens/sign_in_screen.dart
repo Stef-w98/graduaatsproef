@@ -61,9 +61,7 @@ class SignInScreenState extends AuthState<SignInScreen> {
                                   "assets/images/checkpoint.png",
                                 ),
                               ),
-                              const SizedBox(
-                                height: 60.0,
-                              ),
+                              const SizedBox(height: 60.0),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     40, 0, 40, 20),

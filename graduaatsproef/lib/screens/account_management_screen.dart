@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
+import 'package:graduaatsproef/utils/form_style_util.dart';
 import 'package:graduaatsproef/widgets/country_code_picker_widget.dart';
 import 'package:graduaatsproef/widgets/dialogs/write_nfc_dialog.dart';
 
@@ -39,12 +40,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'First Name',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(color: Colors.white),
+                decoration:
+                    buildInputDecoration('First Name', 'Enter your first name'),
+                style: FormStyles.inputTextStyle(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a first name';
@@ -53,13 +51,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _firstName = value ?? '',
               ),
+              const SizedBox(height: 16.0),
               TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Last Name',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(color: Colors.white),
+                decoration: FormStyles.inputDecoration(label: 'Last Name'),
+                style: FormStyles.inputTextStyle(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a last name';
@@ -68,13 +63,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _lastName = value ?? '',
               ),
+              const SizedBox(height: 16.0),
               TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(color: Colors.white),
+                decoration: FormStyles.inputDecoration(label: 'Email'),
+                style: FormStyles.inputTextStyle(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
@@ -83,13 +75,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _email = value ?? '',
               ),
+              const SizedBox(height: 16.0),
               TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Address',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(color: Colors.white),
+                decoration: FormStyles.inputDecoration(label: 'Address'),
+                style: FormStyles.inputTextStyle(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an address';
@@ -98,13 +87,10 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _address = value ?? '',
               ),
+              const SizedBox(height: 16.0),
               TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'City',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(color: Colors.white),
+                decoration: FormStyles.inputDecoration(label: 'City'),
+                style: FormStyles.inputTextStyle(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a city';
@@ -113,15 +99,12 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _city = value ?? '',
               ),
+              const SizedBox(height: 16.0),
               TextFormField(
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: InputDecoration(
-                  labelText: 'Zip Code',
-                  labelStyle: TextStyle(color: Colors.white),
-                  hintStyle: TextStyle(color: Colors.white),
-                ),
-                style: TextStyle(color: Colors.white),
+                decoration: FormStyles.inputDecoration(label: 'Zip Code'),
+                style: FormStyles.inputTextStyle(),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a zip code';
@@ -130,6 +113,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _zipcode = value ?? '',
               ),
+              const SizedBox(height: 16.0),
               CountryCodePickerWidget(
                 onCountryChanged: (CountryCode code) {
                   setState(() {
@@ -139,7 +123,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 phoneController: _phoneController,
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
                   print(_selectedCountry);

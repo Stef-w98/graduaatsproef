@@ -44,43 +44,50 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
         title: Text('Employee Details'),
         backgroundColor: const Color(0xFF090F13),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            UserContactInfoWidget(userId: widget.user.id.toString()),
-            DateRangePicker(
-              onDateRangeChanged: (DateTimeRange? newDateRange) {
-                setState(() {
-                  dateRange = newDateRange;
-                });
-              },
-            ),
-            SizedBox(height: 16),
-            Expanded(
-              child: SingleChildScrollView(
-                child: DataTable(
-                  headingTextStyle: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                  dataTextStyle: TextStyle(color: Colors.white),
-                  columns: [
-                    DataColumn(label: Text('Check In')),
-                    DataColumn(label: Text('Check Out')),
-                  ],
-                  rows: userAttendances.map((attendance) {
-                    return DataRow(cells: [
-                      DataCell(
-                          Text(dateFormatter.format(attendance.checkInTime))),
-                      DataCell(Text(attendance.checkOutTime != null
-                          ? dateFormatter.format(attendance.checkOutTime!)
-                          : 'Not checked out')),
-                    ]);
-                  }).toList(),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: UserContactInfoWidget(userId: widget.user.id.toString()),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DateRangePicker(
+                  onDateRangeChanged: (DateTimeRange? newDateRange) {
+                    setState(() {
+                      dateRange = newDateRange;
+                    });
+                  },
                 ),
-              ),
+                SizedBox(height: 16),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: DataTable(
+                      headingTextStyle: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                      dataTextStyle: TextStyle(color: Colors.white),
+                      columns: [
+                        DataColumn(label: Text('Check In')),
+                        DataColumn(label: Text('Check Out')),
+                      ],
+                      rows: userAttendances.map((attendance) {
+                        return DataRow(cells: [
+                          DataCell(Text(
+                              dateFormatter.format(attendance.checkInTime))),
+                          DataCell(Text(attendance.checkOutTime != null
+                              ? dateFormatter.format(attendance.checkOutTime!)
+                              : 'Not checked out')),
+                        ]);
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
