@@ -3,6 +3,7 @@ import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/models/nfc_cards_model.dart';
 import 'package:graduaatsproef/models/attendance_model.dart';
 import 'package:graduaatsproef/widgets/date_range_picker_widget.dart';
+import 'package:graduaatsproef/widgets/user_contact_info_widget.dart';
 import 'package:intl/intl.dart';
 
 class EmployeeDetails extends StatefulWidget {
@@ -62,6 +63,8 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                 });
               },
             ),
+            SizedBox(height: 16),
+            UserContactInfoWidget(userId: widget.user.id.toString()),
             SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(

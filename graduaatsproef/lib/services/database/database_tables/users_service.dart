@@ -115,4 +115,17 @@ class UsersService {
     final data = response.data as Map<String, dynamic>?;
     return data;
   }
+
+  Future<Map<String, dynamic>?> getUserById(String userId) async {
+    final response =
+        await supabase.from('users').select().eq('user_id', userId).execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    final user = response.data as List<dynamic>?;
+    if (user?.length == 1) {
+      return user![0] as Map<String, dynamic>?;
+    }
+    return null;
+  }
 }
