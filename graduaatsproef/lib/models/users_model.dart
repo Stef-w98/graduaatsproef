@@ -3,10 +3,11 @@ class Users {
   final String firstName;
   final String lastName;
   final String email;
-  final String address;
-  final String city;
-  final String zipcode;
-  final String countryname;
+  final String? address;
+  final String? city;
+  final String? zipcode;
+  final String? country;
+  final String? phone;
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool checkedIn;
@@ -19,7 +20,8 @@ class Users {
     required this.address,
     required this.city,
     required this.zipcode,
-    required this.countryname,
+    required this.country,
+    required this.phone,
     required this.createdAt,
     required this.updatedAt,
     required this.checkedIn,
@@ -31,13 +33,14 @@ class Users {
       firstName: json['first_name'],
       lastName: json['last_name'],
       email: json['email'],
-      address: json['address'],
-      city: json['city'],
-      zipcode: json['zip_code'],
-      countryname: json['country'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       checkedIn: json['checked_in'],
+      address: json['address'],
+      city: json['city'],
+      zipcode: json['zip_code'],
+      country: json['country'],
+      phone: json['phone'],
     );
   }
 }

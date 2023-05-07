@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/country_code_picker_widget.dart';
@@ -112,6 +113,23 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
                 },
                 onSaved: (value) => _city = value ?? '',
               ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  labelText: 'Zip Code',
+                  labelStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a zip code';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _zipcode = value ?? '',
+              ),
               CountryCodePickerWidget(
                 onCountryChanged: (CountryCode code) {
                   setState(() {
@@ -150,6 +168,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
         city: _city,
         country: _selectedCountry.name.toString(),
         zipcode: _zipcode,
+        phone: _phoneController.text.toString(),
         checkedIn: checkedin);
 
     Users newUser = Users(
@@ -159,8 +178,9 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       email: _email,
       address: _address,
       city: _city,
-      countryname: _selectedCountry.name.toString(),
+      country: _selectedCountry.name.toString(),
       zipcode: _zipcode,
+      phone: _phoneController.text.toString(),
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       checkedIn: checkedin,
