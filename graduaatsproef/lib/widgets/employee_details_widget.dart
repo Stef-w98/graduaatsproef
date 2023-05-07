@@ -48,14 +48,7 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Name: ${widget.user.firstName} ${widget.user.lastName}',
-              style: TextStyle(color: Colors.white),
-            ),
-            Text(
-              'Email: ${widget.user.email}',
-              style: TextStyle(color: Colors.white),
-            ),
+            UserContactInfoWidget(userId: widget.user.id.toString()),
             DateRangePicker(
               onDateRangeChanged: (DateTimeRange? newDateRange) {
                 setState(() {
@@ -63,8 +56,6 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
                 });
               },
             ),
-            SizedBox(height: 16),
-            UserContactInfoWidget(userId: widget.user.id.toString()),
             SizedBox(height: 16),
             Expanded(
               child: SingleChildScrollView(

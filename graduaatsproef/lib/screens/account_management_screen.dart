@@ -168,7 +168,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
         city: _city,
         country: _selectedCountry.name.toString(),
         zipcode: _zipcode,
-        phone: _phoneController.text.toString(),
+        phone:
+            '${_selectedCountry.dialCode.toString()} ${_phoneController.text.toString()}',
         checkedIn: checkedin);
 
     Users newUser = Users(
@@ -180,7 +181,8 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
       city: _city,
       country: _selectedCountry.name.toString(),
       zipcode: _zipcode,
-      phone: _phoneController.text.toString(),
+      phone:
+          '${_selectedCountry.dialCode.toString()} ${_phoneController.text.toString()}',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       checkedIn: checkedin,
