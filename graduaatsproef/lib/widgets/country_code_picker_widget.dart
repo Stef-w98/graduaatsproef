@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:graduaatsproef/utils/form_style_util.dart';
 
 class CountryCodePickerWidget extends StatelessWidget {
   final ValueChanged<CountryCode> onCountryChanged;
@@ -15,9 +16,13 @@ class CountryCodePickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
+        SizedBox(
+          width: 170.0,
           child: CountryCodePicker(
+            flagWidth: 40.0,
+            textStyle: TextStyle(color: Colors.white),
             onChanged: onCountryChanged,
             initialSelection: 'BE',
             favorite: const ['BE', 'NL', 'DE'],
@@ -25,22 +30,18 @@ class CountryCodePickerWidget extends StatelessWidget {
             showDropDownButton: true,
           ),
         ),
-        const SizedBox(
-          width: 16.0,
-        ),
-        Expanded(
-          flex: 2,
+        SizedBox(
+          height: 40.0,
+          width: 180.0,
           child: TextField(
             controller: phoneController,
             keyboardType: TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
-            decoration: const InputDecoration(
-              labelText: 'Phone',
-              hintText: 'Enter phone number',
-              border: OutlineInputBorder(),
-            ),
+            decoration:
+                buildInputDecoration('Phone', 'Enter your Phone number'),
+            style: FormStyles.inputTextStyle(),
           ),
         ),
       ],

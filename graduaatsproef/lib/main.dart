@@ -16,7 +16,6 @@ class ScreenPath {
   static const String signin = "/signin";
   static const String signup = "/signup";
   static const String splashscreen = "/splashscreen";
-  //static const String notification = "/MedicationNotificationsPage";
 }
 
 Future<void> main() async {

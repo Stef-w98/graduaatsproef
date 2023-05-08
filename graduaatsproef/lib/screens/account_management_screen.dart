@@ -39,81 +39,108 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                decoration:
-                    buildInputDecoration('First Name', 'Enter your first name'),
-                style: FormStyles.inputTextStyle(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a first name';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _firstName = value ?? '',
+              SizedBox(
+                height: 40.0,
+                width: 350.0,
+                child: TextFormField(
+                  decoration: buildInputDecoration(
+                      'First Name', 'Enter your first name'),
+                  style: FormStyles.inputTextStyle(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a first name';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _firstName = value ?? '',
+                ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                decoration: FormStyles.inputDecoration(label: 'Last Name'),
-                style: FormStyles.inputTextStyle(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a last name';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _lastName = value ?? '',
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 40.0,
+                width: 350.0,
+                child: TextFormField(
+                  decoration:
+                      buildInputDecoration('Last Name', 'Enter your last name'),
+                  style: FormStyles.inputTextStyle(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a last name';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _lastName = value ?? '',
+                ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                decoration: FormStyles.inputDecoration(label: 'Email'),
-                style: FormStyles.inputTextStyle(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _email = value ?? '',
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 40.0,
+                width: 350.0,
+                child: TextFormField(
+                  decoration: buildInputDecoration('Email', 'Enter your email'),
+                  style: FormStyles.inputTextStyle(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _email = value ?? '',
+                ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                decoration: FormStyles.inputDecoration(label: 'Address'),
-                style: FormStyles.inputTextStyle(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an address';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _address = value ?? '',
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 40.0,
+                width: 350.0,
+                child: TextFormField(
+                  decoration:
+                      buildInputDecoration('Address', 'Enter your address'),
+                  style: FormStyles.inputTextStyle(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an address';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _address = value ?? '',
+                ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                decoration: FormStyles.inputDecoration(label: 'City'),
-                style: FormStyles.inputTextStyle(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a city';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _city = value ?? '',
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 40.0,
+                width: 350.0,
+                child: TextFormField(
+                  decoration: buildInputDecoration('City', 'Enter your city'),
+                  style: FormStyles.inputTextStyle(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a city';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _city = value ?? '',
+                ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: FormStyles.inputDecoration(label: 'Zip Code'),
-                style: FormStyles.inputTextStyle(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a zip code';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _zipcode = value ?? '',
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 40.0,
+                width: 350.0,
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration:
+                      buildInputDecoration('Zip Code', 'Enter your zipcode'),
+                  style: FormStyles.inputTextStyle(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a zip code';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _zipcode = value ?? '',
+                ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: 16.0),
               CountryCodePickerWidget(
                 onCountryChanged: (CountryCode code) {
                   setState(() {
