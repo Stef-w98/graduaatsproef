@@ -44,7 +44,7 @@ class UsersService {
     return response.data!.first['user_id'];
   }
 
-  Future<void> updateUser({
+  Future<int> updateUser({
     required int id,
     String? firstName,
     String? lastName,
@@ -73,7 +73,7 @@ class UsersService {
       updates['city'] = city;
     }
     if (zipcode != null) {
-      updates['zipcode'] = zipcode;
+      updates['zip_code'] = zipcode;
     }
     if (country != null) {
       updates['country'] = country;
@@ -92,6 +92,7 @@ class UsersService {
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
+    return response.data!.length;
   }
 
   Future<void> deleteUser(int id) async {

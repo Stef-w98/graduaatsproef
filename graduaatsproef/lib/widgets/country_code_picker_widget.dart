@@ -6,11 +6,13 @@ import 'package:graduaatsproef/utils/form_style_util.dart';
 class CountryCodePickerWidget extends StatelessWidget {
   final ValueChanged<CountryCode> onCountryChanged;
   final TextEditingController phoneController;
+  final String? initialCountryCode;
 
   const CountryCodePickerWidget({
     Key? key,
     required this.onCountryChanged,
     required this.phoneController,
+    this.initialCountryCode,
   }) : super(key: key);
 
   @override
