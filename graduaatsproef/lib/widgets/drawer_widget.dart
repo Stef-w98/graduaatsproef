@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduaatsproef/screens/splashscreen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -69,7 +70,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                onTapSignOut();
+                onTapSignOut(context);
               },
             ),
           ],
@@ -78,7 +79,13 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
-  void onTapSignOut() async {
+  void onTapSignOut(BuildContext context) async {
     await Supabase.instance.client.auth.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SplashScreen(),
+      ),
+    );
   }
 }
