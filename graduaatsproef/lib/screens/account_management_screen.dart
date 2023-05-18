@@ -6,6 +6,7 @@ import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/utils/form_style_util.dart';
 import 'package:graduaatsproef/widgets/country_code_picker_widget.dart';
 import 'package:graduaatsproef/widgets/dialogs/write_nfc_dialog.dart';
+import 'package:graduaatsproef/widgets/drawer_widget.dart';
 
 class AccountManagementScreen extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _AccountManagementScreenState extends State<AccountManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerWidget(),
       backgroundColor: Color(0xFF1A1F24),
       appBar: AppBar(
         title: const Text('Add Account'),

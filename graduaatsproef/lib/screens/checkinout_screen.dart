@@ -3,10 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduaatsproef/utils/checkin_util.dart';
+import 'package:graduaatsproef/widgets/drawer_widget.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_manager/platform_tags.dart';
-import '../utils/decryption_util.dart';
-import '../widgets/dialogs/read_nfc_dialog.dart';
 import 'package:hex/hex.dart';
 
 class CheckInOutScreen extends StatelessWidget {
@@ -16,6 +15,7 @@ class CheckInOutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerWidget(),
       backgroundColor: const Color(0xFF1A1F24),
       appBar: AppBar(
         title: const Text('Check In/Out'),

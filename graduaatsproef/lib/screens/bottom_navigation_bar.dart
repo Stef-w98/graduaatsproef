@@ -6,11 +6,11 @@ import 'package:graduaatsproef/screens/checkinout_screen.dart';
 import 'package:graduaatsproef/screens/home_screen.dart';
 
 class NavigationPage {
-  static const int homeScreen = 0;
-  static const int checkInOutScreen = 1;
-  static const int inOffice = 2;
-  static const int employees = 3;
-  static const int accountManagementScreen = 4;
+  //static const int homeScreen = 0;
+  static const int checkInOutScreen = 0;
+  static const int inOffice = 1;
+  static const int employees = 2;
+  static const int accountManagementScreen = 3;
 
   int index;
   String name;
@@ -41,8 +41,8 @@ class _PageViewControllerState extends State<BottomNavigation> {
     super.initState();
     // The pages for in the bottom navigation bar
     _pages = [
-      NavigationPage(NavigationPage.homeScreen, 'Home', Icons.home_outlined,
-          const HomeScreen()),
+      // NavigationPage(NavigationPage.homeScreen, 'Home', Icons.home_outlined,
+      //     const HomeScreen()),
       NavigationPage(NavigationPage.checkInOutScreen, 'Check In/Out',
           Icons.checklist_outlined, CheckInOutScreen()),
       NavigationPage(NavigationPage.inOffice, 'In-Office',

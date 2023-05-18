@@ -43,7 +43,7 @@ class SplashScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                const BottomNavigation(NavigationPage.homeScreen)),
+                const BottomNavigation(NavigationPage.checkInOutScreen)),
       );
     } else {
       Navigator.pushReplacement(

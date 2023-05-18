@@ -323,7 +323,7 @@ class SignInScreenState extends AuthState<SignInScreen> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                const BottomNavigation(NavigationPage.homeScreen)),
+                const BottomNavigation(NavigationPage.checkInOutScreen)),
       );
     }
   }

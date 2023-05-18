@@ -4,6 +4,7 @@ import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/attendance_sheet.dart';
 import 'package:graduaatsproef/widgets/date_picker_widget.dart';
+import 'package:graduaatsproef/widgets/drawer_widget.dart';
 import 'package:graduaatsproef/widgets/sort_filter_widget.dart';
 
 class InOfficeScreen extends StatefulWidget {
@@ -70,6 +71,7 @@ class _InOfficeScreenState extends State<InOfficeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerWidget(),
       backgroundColor: Color(0xFF1A1F24),
       appBar: AppBar(
         title: const Text('Analytics'),
