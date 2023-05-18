@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/utils/form_style_util.dart';
+import 'package:graduaatsproef/widgets/employee_details_widget.dart';
 
 class UpdateAccountScreen extends StatefulWidget {
   final Users user;
@@ -225,12 +226,25 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: () {
-                  print(countrydail);
-                  print(countryname);
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    _updateUser();
+                    int? userId = await _updateUser();
+                    if (userId != null) {
+                      showSnackbar('Update successful', Colors.green);
+                      await Future.delayed(Duration(seconds: 1));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EmployeeDetails(
+                              user: widget.user,
+                              cards: [],
+                              attendances: [],
+                            ),
+                          ));
+                    } else {
+                      showSnackbar('Update failed', Colors.red);
+                    }
                   }
                 },
                 child: Text('Submit'),
@@ -242,8 +256,8 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
     );
   }
 
-  Future<int> _updateUser() async {
-    int userId = await DatabaseService().usersService.updateUser(
+  Future<int?> _updateUser() async {
+    int? userId = await DatabaseService().usersService.updateUser(
           id: widget.user.id,
           firstName: _firstName,
           lastName: _lastName,
@@ -255,5 +269,14 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
           phone: '${countrydail} ${_phoneController.text}',
         );
     return userId;
+  }
+
+  void showSnackbar(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+      ),
+    );
   }
 }

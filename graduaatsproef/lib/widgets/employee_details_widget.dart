@@ -3,12 +3,13 @@ import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/models/nfc_cards_model.dart';
 import 'package:graduaatsproef/models/attendance_model.dart';
 import 'package:graduaatsproef/screens/update_user_screen.dart';
+import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/date_range_picker_widget.dart';
 import 'package:graduaatsproef/widgets/user_contact_info_widget.dart';
 import 'package:intl/intl.dart';
 
 class EmployeeDetails extends StatefulWidget {
-  final Users user;
+  late final Users user;
   final List<NfcCards> cards;
   final List<Attendance> attendances;
 
@@ -89,13 +90,20 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              Map<String, dynamic> result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        UpdateAccountScreen(user: widget.user)),
+                  builder: (context) => UpdateAccountScreen(user: widget.user),
+                ),
               );
+              if (result != null && result['refresh'] == true) {
+                setState(() {
+                  // Update the user data using the result
+                  widget.user = Users.fromMap(result['user']);
+                  dateRange = null;
+                });
+              }
             },
             child: Text('Update User'),
           ),

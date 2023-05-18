@@ -43,4 +43,21 @@ class Users {
       phone: json['phone'],
     );
   }
+
+  factory Users.fromMap(Map<String, dynamic> map) {
+    return Users(
+      id: map['id'],
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      email: map['email'],
+      address: map['address'],
+      city: map['city'],
+      zipcode: map['zipcode'],
+      country: map['country'],
+      phone: map['phone'],
+      createdAt: DateTime.parse(map['createdAt']),
+      updatedAt: DateTime.parse(map['updatedAt']),
+      checkedIn: map['checkedIn'],
+    );
+  }
 }
