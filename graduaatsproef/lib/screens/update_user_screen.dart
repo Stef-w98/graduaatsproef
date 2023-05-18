@@ -22,8 +22,9 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
   String _address = '';
   String _city = '';
   String _zipcode = '';
-  String _selectedCountryName = '';
-  CountryCode _selectedCountryCode = CountryCode.fromCountryCode('BE');
+  String countryname = '';
+  String countrydail = '';
+  CountryCode _selectedCountry = CountryCode.fromCountryCode('BE');
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
@@ -39,11 +40,12 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
     _addressController.text = widget.user.address!;
     _cityController.text = widget.user.city!;
     _zipcodeController.text = widget.user.zipcode!;
-    _selectedCountryName = widget.user.country!;
-    _selectedCountryCode =
+    countryname = widget.user.country!;
+    countrydail = widget.user.phone!.split(' ')[0];
+    _selectedCountry =
         CountryCode.fromDialCode(widget.user.phone!.split(' ')[0]);
     _phoneController.text = widget.user.phone!.split(' ')[1];
-    initialCountryCode = _selectedCountryCode.code!;
+    initialCountryCode = _selectedCountry.code!;
   }
 
   @override
@@ -190,9 +192,9 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                     child: CountryCodePicker(
                       onChanged: (_selectedCountry) {
                         setState(() {
-                          _selectedCountryCode = _selectedCountry!;
-                          _selectedCountryName = _selectedCountry.name!;
-                          initialCountryCode = _selectedCountry.code!;
+                          _selectedCountry = _selectedCountry;
+                          countryname = _selectedCountry.name.toString();
+                          countrydail = _selectedCountry.dialCode.toString();
                         });
                       },
                       initialSelection: initialCountryCode,
@@ -224,6 +226,8 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
+                  print(countrydail);
+                  print(countryname);
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     _updateUser();
@@ -247,8 +251,8 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
           address: _address,
           city: _city,
           zipcode: _zipcode.toString(),
-          country: _selectedCountryName,
-          phone: '${_selectedCountryCode.dialCode} ${_phoneController.text}',
+          country: countryname,
+          phone: '${countrydail} ${_phoneController.text}',
         );
     return userId;
   }
