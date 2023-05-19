@@ -43,7 +43,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     if (_searchText.isEmpty) {
       return users;
     }
-
     return users
         .where((user) =>
             '${user.firstName} ${user.lastName}'

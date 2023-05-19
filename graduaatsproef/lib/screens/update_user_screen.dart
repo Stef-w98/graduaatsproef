@@ -233,7 +233,7 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                     if (userId != null) {
                       showSnackbar('Update successful', Colors.green);
                       await Future.delayed(Duration(seconds: 1));
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => EmployeeDetails(

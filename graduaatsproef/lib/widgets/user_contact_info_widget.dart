@@ -160,17 +160,6 @@ class _UserContactInfoWidgetState extends State<UserContactInfoWidget> {
               ),
             ],
           ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-          ),
         ],
       ),
     );

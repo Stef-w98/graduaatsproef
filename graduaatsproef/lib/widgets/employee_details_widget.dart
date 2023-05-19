@@ -91,7 +91,7 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
           ),
           ElevatedButton(
             onPressed: () async {
-              Map<String, dynamic> result = await Navigator.push(
+              Map<String, dynamic> result = await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => UpdateAccountScreen(user: widget.user),
