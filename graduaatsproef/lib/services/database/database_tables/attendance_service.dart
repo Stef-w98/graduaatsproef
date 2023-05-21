@@ -19,6 +19,25 @@ class AttendanceService {
     return attendance;
   }
 
+  Future<List<Attendance>> getAttendanceByUserId(int userId) async {
+    final response = await supabase
+        .from('attendance')
+        .select()
+        .eq('user_id', userId)
+        .execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    final List<dynamic> data = response.data ?? [];
+    if (data.isEmpty) {
+      return [];
+    }
+    final List<Attendance> attendance =
+        data.map((json) => Attendance.fromJson(json)).toList();
+    attendance.forEach((a) => print('${a.id}: ${a.userId} - ${a.checkInTime}'));
+    return attendance;
+  }
+
   Future<int> addAttendance({
     required int userId,
     required DateTime checkInTime,
