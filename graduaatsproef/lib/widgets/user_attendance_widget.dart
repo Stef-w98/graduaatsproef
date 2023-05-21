@@ -51,8 +51,17 @@ class _AttendanceDataTableWidgetState extends State<AttendanceDataTableWidget> {
     } else {
       return attendances.where((attendance) {
         DateTime checkInTime = attendance.checkInTime;
-        return checkInTime.isAfter(widget.startDate!) &&
-            checkInTime.isBefore(widget.endDate!);
+        DateTime startDate = DateTime(widget.startDate!.year,
+            widget.startDate!.month, widget.startDate!.day);
+        DateTime endDate = DateTime(
+            widget.endDate!.year, widget.endDate!.month, widget.endDate!.day);
+        return checkInTime.year == startDate.year &&
+                checkInTime.month == startDate.month &&
+                checkInTime.day >= startDate.day ||
+            checkInTime.year == endDate.year &&
+                checkInTime.month == endDate.month &&
+                checkInTime.day <= endDate.day ||
+            checkInTime.isAfter(startDate) && checkInTime.isBefore(endDate);
       }).toList();
     }
   }
