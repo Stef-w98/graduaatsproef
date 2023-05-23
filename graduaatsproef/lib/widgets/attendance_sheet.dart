@@ -54,9 +54,9 @@ class AttendanceSheet extends StatelessWidget {
           rows: attendances.map((attendance) {
             final user =
                 users.firstWhere((user) => user.id == attendance.userId);
-            final checkInHour = _formatTime(attendance.checkInTime.toLocal());
+            final checkInHour = _formatTime(attendance.checkInTime);
             final checkOutHour = attendance.checkOutTime != null
-                ? _formatTime(attendance.checkOutTime!.toLocal())
+                ? _formatTime(attendance.checkOutTime!)
                 : '-';
             final totalHours = attendance.checkOutTime != null
                 ? _formatTotalHours(
