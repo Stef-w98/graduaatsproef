@@ -82,6 +82,10 @@ class SignInScreenState extends AuthState<SignInScreen> {
                                       decoration: const InputDecoration(
                                         labelText: 'Email',
                                         hintText: 'Email Address',
+                                        hintStyle:
+                                            TextStyle(color: Colors.white54),
+                                        labelStyle:
+                                            TextStyle(color: Colors.white),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -124,6 +128,7 @@ class SignInScreenState extends AuthState<SignInScreen> {
                                         ),
                                       ),
                                       keyboardType: TextInputType.emailAddress,
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -148,6 +153,10 @@ class SignInScreenState extends AuthState<SignInScreen> {
                                       decoration: InputDecoration(
                                         labelText: 'Password',
                                         hintText: 'Enter Password',
+                                        hintStyle:
+                                            TextStyle(color: Colors.white54),
+                                        labelStyle:
+                                            TextStyle(color: Colors.white),
                                         enabledBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0x00000000),
@@ -204,6 +213,7 @@ class SignInScreenState extends AuthState<SignInScreen> {
                                           },
                                         ),
                                       ),
+                                      style: TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
