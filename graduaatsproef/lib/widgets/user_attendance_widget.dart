@@ -51,6 +51,24 @@ class _AttendanceDataTableWidgetState extends State<AttendanceDataTableWidget> {
     } else {
       return attendances.where((attendance) {
         DateTime checkInTime = attendance.checkInTime;
+        DateTime startDate = widget.startDate!
+            .toLocal()
+            .subtract(Duration(days: widget.startDate!.toLocal().weekday - 1));
+        DateTime endDate = widget.endDate!
+            .toLocal()
+            .subtract(Duration(days: widget.endDate!.toLocal().weekday - 1))
+            .add(Duration(days: DateTime.daysPerWeek));
+        return checkInTime.isAfter(startDate) && checkInTime.isBefore(endDate);
+      }).toList();
+    }
+  }
+
+  /*List<Attendance> filterAttendances() {
+    if (widget.startDate == null || widget.endDate == null) {
+      return attendances;
+    } else {
+      return attendances.where((attendance) {
+        DateTime checkInTime = attendance.checkInTime;
         DateTime startDate = DateTime(widget.startDate!.year,
             widget.startDate!.month, widget.startDate!.day);
         DateTime endDate = DateTime(
@@ -61,10 +79,11 @@ class _AttendanceDataTableWidgetState extends State<AttendanceDataTableWidget> {
             checkInTime.year == endDate.year &&
                 checkInTime.month == endDate.month &&
                 checkInTime.day <= endDate.day ||
-            checkInTime.isAfter(startDate) && checkInTime.isBefore(endDate);
+            checkInTime.isAfter(DateTime(startDate.day)) &&
+                checkInTime.isBefore(DateTime(endDate.day));
       }).toList();
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
