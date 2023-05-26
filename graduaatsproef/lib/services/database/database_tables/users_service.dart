@@ -1,22 +1,77 @@
-import 'package:graduaatsproef/models/users_model.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:math';
+import 'package:graduaatsproef/models/users_model.dart' as UsersModel;
+import 'package:graduaatsproef/utils/encryption_util.dart' as EncryptionUtil;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersService {
   final supabase = Supabase.instance.client;
 
-  Future<List<Users>> getUsers() async {
+  Future<List<UsersModel.Users>> getUsers() async {
     final response = await supabase.from('users').select().execute();
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
     final userMaps = List<Map<String, dynamic>>.from(response.data!);
-    final users = userMaps.map((map) => Users.fromJson(map)).toList();
+    final users =
+        userMaps.map((map) => UsersModel.Users.fromJson(map)).toList();
     users.forEach((user) => print(
         '${user.id}: ${user.firstName} ${user.lastName} - ${user.email} - ${user.checkedIn}'));
     return users;
   }
 
   Future<int> addUser({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String address,
+    required String city,
+    required String zipcode,
+    required String country,
+    required String phone,
+    required bool checkedIn,
+  }) async {
+    final encryptionKey =
+        generateRandomBytes(32); // Generate a random 32-byte key
+    final encryptedAddress =
+        EncryptionUtil.encrypt(address, encryptionKey)['encryptedData'];
+    final encryptedCity =
+        EncryptionUtil.encrypt(city, encryptionKey)['encryptedData'];
+    final encryptedZipCode =
+        EncryptionUtil.encrypt(zipcode, encryptionKey)['encryptedData'];
+    final encryptedCountry =
+        EncryptionUtil.encrypt(country, encryptionKey)['encryptedData'];
+    final encryptedPhone =
+        EncryptionUtil.encrypt(phone, encryptionKey)['encryptedData'];
+
+    final response = await supabase.from('users').insert({
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'address': encryptedAddress,
+      'city': encryptedCity,
+      'zip_code': encryptedZipCode,
+      'country': encryptedCountry,
+      'phone': encryptedPhone,
+      'checked_in': checkedIn,
+      //'encryption_key': base64.encode(
+      //   encryptionKey), // Store the base64 encoded key in the database
+    }).execute();
+
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    return response.data!.first['user_id'];
+  }
+
+  Uint8List generateRandomBytes(int length) {
+    final _random = Random.secure();
+    return Uint8List.fromList(
+        List<int>.generate(length, (_) => _random.nextInt(256)));
+  }
+
+/*Future<int> addUser({
     required String firstName,
     required String lastName,
     required String email,
@@ -42,7 +97,7 @@ class UsersService {
       throw Exception(response.error!.message);
     }
     return response.data!.first['user_id'];
-  }
+  }*/
 
   Future<int> updateUser({
     required int id,
