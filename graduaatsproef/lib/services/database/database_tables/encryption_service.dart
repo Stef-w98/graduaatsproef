@@ -6,21 +6,21 @@ class EncryptionService {
   final supabase = Supabase.instance.client;
 
   Future<int> addEncryptionKey({
-    required int userId,
     required Uint8List key,
     required Uint8List iv,
     required DateTime createdAt,
   }) async {
-    final encodedkey = base64.encode(key);
-    final decode = base64.decode(encodedkey);
+    final encodedKey = base64.encode(key);
     final response = await supabase.from('encryption_key').insert({
-      'key': encodedkey,
+      'key': encodedKey,
       'iv': base64.encode(iv),
       'created_at': createdAt.toIso8601String(),
     }).execute();
+
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
+
     return response.data!.first['encryption_id'];
   }
 

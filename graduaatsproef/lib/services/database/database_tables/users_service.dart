@@ -1,12 +1,15 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:math';
+import 'dart:typed_data';
 import 'package:graduaatsproef/models/users_model.dart' as UsersModel;
 import 'package:graduaatsproef/utils/encryption_util.dart' as EncryptionUtil;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'encryption_service.dart';
+
 class UsersService {
   final supabase = Supabase.instance.client;
+  final encryptionService = EncryptionService();
 
   Future<List<UsersModel.Users>> getUsers() async {
     final response = await supabase.from('users').select().execute();
@@ -32,6 +35,7 @@ class UsersService {
     required String phone,
     required bool checkedIn,
   }) async {
+    final createdAt = DateTime.now();
     final encryptionKey =
         generateRandomBytes(32); // Generate a random 32-byte key
     final encryptedAddress =
@@ -55,14 +59,23 @@ class UsersService {
       'country': encryptedCountry,
       'phone': encryptedPhone,
       'checked_in': checkedIn,
-      //'encryption_key': base64.encode(
-      //   encryptionKey), // Store the base64 encoded key in the database
+      'created_at': createdAt.toString(),
     }).execute();
 
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
-    return response.data!.first['user_id'];
+
+    final userId = response.data!.first['user_id'];
+    final iv = EncryptionUtil.generateIV();
+
+    await encryptionService.addEncryptionKey(
+      key: encryptionKey,
+      iv: iv,
+      createdAt: createdAt,
+    );
+
+    return userId;
   }
 
   Uint8List generateRandomBytes(int length) {
