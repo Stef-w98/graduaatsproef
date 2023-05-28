@@ -24,27 +24,22 @@ Uint8List generateIV() {
 }
 
 Uint8List encryptAES256(String plainText, Uint8List key, Uint8List iv) {
-  print('ENCRYPTION: ');
-  print('Plaintext: $plainText');
-  print('Key: $key');
-  print('Iv: $iv');
   final params = PaddedBlockCipherParameters(
-      ParametersWithIV<KeyParameter>(KeyParameter(key), iv), null);
+    ParametersWithIV<KeyParameter>(KeyParameter(key), iv),
+    null,
+  );
   final cipher =
       PaddedBlockCipherImpl(PKCS7Padding(), CBCBlockCipher(AESEngine()));
   cipher.init(true, params);
 
   final inputBytes = Uint8List.fromList(utf8.encode(plainText));
   final encryptedBytes = cipher.process(inputBytes);
-  print('Encrypted Bytes: $encryptedBytes');
   return encryptedBytes;
 }
 
-Map<String, Uint8List> encrypt(String plainText, Uint8List key) {
-  final iv = generateIV();
-  print(iv);
-  print(key);
-  final encryptedBytes = encryptAES256(plainText, key, iv);
+Map<String, Uint8List> encrypt(
+    String plainText, Uint8List encryptionKey, Uint8List iv) {
+  final encryptedBytes = encryptAES256(plainText, encryptionKey, iv);
   return {'encryptedData': encryptedBytes, 'iv': iv};
 }
 

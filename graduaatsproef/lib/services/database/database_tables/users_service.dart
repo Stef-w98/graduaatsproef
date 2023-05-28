@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:graduaatsproef/models/users_model.dart' as UsersModel;
+import 'package:graduaatsproef/utils/decryption_util.dart';
 import 'package:graduaatsproef/utils/encryption_util.dart' as EncryptionUtil;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -36,18 +37,19 @@ class UsersService {
     required bool checkedIn,
   }) async {
     final createdAt = DateTime.now();
-    final encryptionKey =
-        generateRandomBytes(32); // Generate a random 32-byte key
+    final encryptionKey = generateRandomBytes(32);
+    final iv = EncryptionUtil.generateIV();
+
     final encryptedAddress =
-        EncryptionUtil.encrypt(address, encryptionKey)['encryptedData'];
+        EncryptionUtil.encrypt(address, encryptionKey, iv)['encryptedData'];
     final encryptedCity =
-        EncryptionUtil.encrypt(city, encryptionKey)['encryptedData'];
+        EncryptionUtil.encrypt(city, encryptionKey, iv)['encryptedData'];
     final encryptedZipCode =
-        EncryptionUtil.encrypt(zipcode, encryptionKey)['encryptedData'];
+        EncryptionUtil.encrypt(zipcode, encryptionKey, iv)['encryptedData'];
     final encryptedCountry =
-        EncryptionUtil.encrypt(country, encryptionKey)['encryptedData'];
+        EncryptionUtil.encrypt(country, encryptionKey, iv)['encryptedData'];
     final encryptedPhone =
-        EncryptionUtil.encrypt(phone, encryptionKey)['encryptedData'];
+        EncryptionUtil.encrypt(phone, encryptionKey, iv)['encryptedData'];
 
     final response = await supabase.from('users').insert({
       'first_name': firstName,
@@ -67,14 +69,12 @@ class UsersService {
     }
 
     final userId = response.data!.first['user_id'];
-    final iv = EncryptionUtil.generateIV();
 
     await encryptionService.addEncryptionKey(
       key: encryptionKey,
       iv: iv,
       createdAt: createdAt,
     );
-
     return userId;
   }
 
@@ -193,8 +193,49 @@ class UsersService {
     }
     final user = response.data as List<dynamic>?;
     if (user?.length == 1) {
-      return user![0] as Map<String, dynamic>?;
+      final userData = user![0] as Map<String, dynamic>;
+
+      final createTime = userData['created_at'] as String;
+      final encryptionKey =
+          await encryptionService.getEncryptionKey(createTime);
+      if (encryptionKey != null) {
+        final decryptedData = <String, dynamic>{};
+        userData.forEach((key, value) {
+          if (key == 'address' ||
+              key == 'city' ||
+              key == 'zip_code' ||
+              key == 'country' ||
+              key == 'phone') {
+            print('Value: ${value.toString()}');
+            final encryptedValue = value.toString();
+            final sanitizedValue =
+                encryptedValue.replaceAll(RegExp(r'[^\d,]'), '');
+            final dataList = sanitizedValue.split(',');
+            final dataIntList = dataList.map(int.parse).toList();
+            final encryptedBytes = Uint8List.fromList(dataIntList);
+            final decryptedValue = decryptData(
+                encryptedBytes, encryptionKey.key, encryptionKey.iv);
+            decryptedData[key] = utf8.decode(decryptedValue);
+          } else {
+            decryptedData[key] = value;
+          }
+        });
+        return decryptedData;
+      }
     }
     return null;
   }
+
+/*Future<Map<String, dynamic>?> getUserById(String userId) async {
+    final response =
+        await supabase.from('users').select().eq('user_id', userId).execute();
+    if (response.error != null) {
+      throw Exception(response.error!.message);
+    }
+    final user = response.data as List<dynamic>?;
+    if (user?.length == 1) {
+      return user![0] as Map<String, dynamic>?;
+    }
+    return null;
+  }*/
 }
