@@ -3,6 +3,7 @@ import 'package:graduaatsproef/models/users_model.dart';
 import 'package:graduaatsproef/models/nfc_cards_model.dart';
 import 'package:graduaatsproef/models/attendance_model.dart';
 import 'package:graduaatsproef/screens/update_user_screen.dart';
+import 'package:graduaatsproef/services/database/database_service.dart';
 import 'package:graduaatsproef/widgets/date_range_picker_widget.dart';
 import 'package:graduaatsproef/widgets/user_attendance_widget.dart';
 import 'package:graduaatsproef/widgets/user_contact_info_widget.dart';
@@ -28,19 +29,16 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
   DateTime? endDate;
   final dateFormatter = DateFormat('yyyy-MM-dd HH:mm');
 
+  late Users _currentUser; // New variable to hold user data
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = widget.user; // Assign initial value of widget.user
+  }
+
   @override
   Widget build(BuildContext context) {
-    /*final userAttendances = widget.attendances.where((attendance) {
-      if (startDate == null || endDate == null) {
-        return attendance.userId == widget.user.id;
-      }
-
-      DateTime checkInTime = attendance.checkInTime;
-      return attendance.userId == widget.user.id &&
-          checkInTime.isAfter(startDate!) &&
-          checkInTime.isBefore(endDate!);
-    }).toList();*/
-
     return Scaffold(
       backgroundColor: const Color(0xFF1A1F24),
       appBar: AppBar(
@@ -66,7 +64,7 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
-          child: UserContactInfoWidget(userId: widget.user.id.toString()),
+          child: UserContactInfoWidget(userId: _currentUser.id.toString()),
         ),
         Expanded(
           child: Column(
@@ -83,7 +81,7 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
               SizedBox(height: 16),
               Expanded(
                 child: AttendanceDataTableWidget(
-                  userId: widget.user.id,
+                  userId: _currentUser.id,
                   startDate: startDate,
                   endDate: endDate,
                 ),
@@ -95,15 +93,16 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton.icon(
             onPressed: () async {
+              await _getUserInfo(); // Fetch the updated user data
               Map<String, dynamic> result = await Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => UpdateAccountScreen(user: widget.user),
+                  builder: (context) => UpdateAccountScreen(user: _currentUser),
                 ),
               );
               if (result != null && result['refresh'] == true) {
                 setState(() {
-                  widget.user = Users.fromMap(result['user']);
+                  _currentUser = Users.fromMap(result['user']);
                   startDate = null;
                   endDate = null;
                 });
@@ -133,7 +132,7 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
           ),
           SizedBox(height: 16),
           AttendanceDataTableWidget(
-            userId: widget.user.id,
+            userId: _currentUser.id,
             startDate: startDate,
             endDate: endDate,
           ),
@@ -142,16 +141,17 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton.icon(
               onPressed: () async {
+                await _getUserInfo(); // Fetch the updated user data
                 Map<String, dynamic> result = await Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        UpdateAccountScreen(user: widget.user),
+                        UpdateAccountScreen(user: _currentUser),
                   ),
                 );
                 if (result != null && result['refresh'] == true) {
                   setState(() {
-                    widget.user = Users.fromMap(result['user']);
+                    _currentUser = Users.fromMap(result['user']);
                     startDate = null;
                     endDate = null;
                   });
@@ -163,11 +163,20 @@ class _EmployeeDetailsState extends State<EmployeeDetails> {
           ),
           SizedBox(height: 16),
           Center(
-            child: UserContactInfoWidget(userId: widget.user.id.toString()),
+            child: UserContactInfoWidget(userId: _currentUser.id.toString()),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _getUserInfo() async {
+    final userInfo = await DatabaseService()
+        .usersService
+        .getUserById(_currentUser.id.toString());
+    setState(() {
+      _currentUser = Users.fromMap(userInfo!);
+    });
   }
 }
 

@@ -46,18 +46,18 @@ class Users {
 
   factory Users.fromMap(Map<String, dynamic> map) {
     return Users(
-      id: map['id'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
+      id: map['user_id'],
+      firstName: map['first_name'],
+      lastName: map['last_name'],
       email: map['email'],
       address: map['address'],
       city: map['city'],
-      zipcode: map['zipcode'],
+      zipcode: map['zip_code'],
       country: map['country'],
       phone: map['phone'],
-      createdAt: DateTime.parse(map['createdAt']),
-      updatedAt: DateTime.parse(map['updatedAt']),
-      checkedIn: map['checkedIn'],
+      createdAt: DateTime.parse(map['created_at']),
+      updatedAt: DateTime.parse(map['updated_at']),
+      checkedIn: map['checked_in'],
     );
   }
 }

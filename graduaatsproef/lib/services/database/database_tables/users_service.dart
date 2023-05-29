@@ -84,35 +84,86 @@ class UsersService {
         List<int>.generate(length, (_) => _random.nextInt(256)));
   }
 
-/*Future<int> addUser({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String address,
-    required String city,
-    required String zipcode,
-    required String country,
-    required String phone,
-    required bool checkedIn,
+  Future<int> updateUser({
+    required int id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? address,
+    String? city,
+    String? zipcode,
+    String? country,
+    String? phone,
+    bool? checkedIn,
   }) async {
-    final response = await supabase.from('users').insert({
-      'first_name': firstName,
-      'last_name': lastName,
-      'email': email,
-      'address': address,
-      'city': city,
-      'zip_code': zipcode,
-      'country': country,
-      'phone': phone,
-      'checked_in': checkedIn,
-    }).execute();
+    final user = await getUserById(id.toString());
+    if (user == null) {
+      throw Exception('User not found');
+    }
+
+    final createdAt = DateTime.parse(user['created_at']);
+    final encryptionKey =
+        await encryptionService.getEncryptionKey(createdAt.toString());
+
+    if (encryptionKey == null) {
+      throw Exception('Encryption key not found');
+    }
+
+    final iv = encryptionKey.iv;
+    final updates = <String, dynamic>{};
+
+    if (firstName != null) {
+      updates['first_name'] = firstName;
+    }
+    if (lastName != null) {
+      updates['last_name'] = lastName;
+    }
+    if (email != null) {
+      updates['email'] = email;
+    }
+    if (address != null) {
+      final encryptedAddress = EncryptionUtil.encrypt(
+          address, encryptionKey.key, iv)['encryptedData'];
+      updates['address'] = encryptedAddress;
+    }
+    if (city != null) {
+      final encryptedCity =
+          EncryptionUtil.encrypt(city, encryptionKey.key, iv)['encryptedData'];
+      updates['city'] = encryptedCity;
+    }
+    if (zipcode != null) {
+      final encryptedZipCode = EncryptionUtil.encrypt(
+          zipcode, encryptionKey.key, iv)['encryptedData'];
+      updates['zip_code'] = encryptedZipCode;
+    }
+    if (country != null) {
+      final encryptedCountry = EncryptionUtil.encrypt(
+          country, encryptionKey.key, iv)['encryptedData'];
+      updates['country'] = encryptedCountry;
+    }
+    if (phone != null) {
+      final encryptedPhone =
+          EncryptionUtil.encrypt(phone, encryptionKey.key, iv)['encryptedData'];
+      updates['phone'] = encryptedPhone;
+    }
+    if (checkedIn != null) {
+      updates['checked_in'] = checkedIn;
+    }
+
+    final response = await supabase
+        .from('users')
+        .update(updates)
+        .eq('user_id', id)
+        .execute();
+
     if (response.error != null) {
       throw Exception(response.error!.message);
     }
-    return response.data!.first['user_id'];
-  }*/
 
-  Future<int> updateUser({
+    return response.data!.length;
+  }
+
+  /*Future<int> updateUser({
     required int id,
     String? firstName,
     String? lastName,
@@ -161,7 +212,7 @@ class UsersService {
       throw Exception(response.error!.message);
     }
     return response.data!.length;
-  }
+  }*/
 
   Future<void> deleteUser(int id) async {
     final response =
@@ -225,17 +276,4 @@ class UsersService {
     }
     return null;
   }
-
-/*Future<Map<String, dynamic>?> getUserById(String userId) async {
-    final response =
-        await supabase.from('users').select().eq('user_id', userId).execute();
-    if (response.error != null) {
-      throw Exception(response.error!.message);
-    }
-    final user = response.data as List<dynamic>?;
-    if (user?.length == 1) {
-      return user![0] as Map<String, dynamic>?;
-    }
-    return null;
-  }*/
 }
