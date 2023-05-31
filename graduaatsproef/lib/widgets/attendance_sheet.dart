@@ -43,10 +43,10 @@ class AttendanceSheet extends StatelessWidget {
                 label: Container(width: nameColumnWidth, child: Text('Name'))),
             DataColumn(
                 label: Container(
-                    width: otherColumnWidth, child: Text('Checkin Hour'))),
+                    width: otherColumnWidth, child: Text('Check-in'))),
             DataColumn(
                 label: Container(
-                    width: otherColumnWidth, child: Text('Checkout Hour'))),
+                    width: otherColumnWidth, child: Text('Check-out'))),
             DataColumn(
                 label: Container(
                     width: otherColumnWidth, child: Text('Total Hours'))),

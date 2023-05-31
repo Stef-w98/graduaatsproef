@@ -57,183 +57,184 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
         title: const Text('Update Account'),
         backgroundColor: const Color(0xFF090F13),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40.0,
-                width: 350.0,
-                child: TextFormField(
-                  initialValue: _firstName,
-                  decoration: buildInputDecoration(
-                    'First Name',
-                    'Enter your first name',
-                  ),
-                  style: FormStyles.inputTextStyle(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a first name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _firstName = value ?? '',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              SizedBox(
-                height: 40.0,
-                width: 350.0,
-                child: TextFormField(
-                  initialValue: _lastName,
-                  decoration: buildInputDecoration(
-                    'Last Name',
-                    'Enter your last name',
-                  ),
-                  style: FormStyles.inputTextStyle(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a last name';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _lastName = value ?? '',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              SizedBox(
-                height: 40.0,
-                width: 350.0,
-                child: TextFormField(
-                  initialValue: _email,
-                  decoration: buildInputDecoration(
-                    'Email',
-                    'Enter your email',
-                  ),
-                  style: FormStyles.inputTextStyle(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an email';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _email = value ?? '',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              SizedBox(
-                height: 40.0,
-                width: 350.0,
-                child: TextFormField(
-                  controller: _addressController,
-                  decoration: buildInputDecoration(
-                    'Address',
-                    'Enter your address',
-                  ),
-                  style: FormStyles.inputTextStyle(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an address';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _address = value ?? '',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              SizedBox(
-                height: 40.0,
-                width: 350.0,
-                child: TextFormField(
-                  controller: _cityController,
-                  decoration: buildInputDecoration(
-                    'City',
-                    'Enter your city',
-                  ),
-                  style: FormStyles.inputTextStyle(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a city';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _city = value ?? '',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              SizedBox(
-                height: 40.0,
-                width: 350.0,
-                child: TextFormField(
-                  controller: _zipcodeController,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: buildInputDecoration(
-                    'Zip Code',
-                    'Enter your zipcode',
-                  ),
-                  style: FormStyles.inputTextStyle(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a zip code';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) => _zipcode = value ?? '',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 170.0,
-                    child: CountryCodePicker(
-                      onChanged: (_selectedCountry) {
-                        setState(() {
-                          _selectedCountry = _selectedCountry;
-                          countryname = _selectedCountry.name.toString();
-                          countrydail = _selectedCountry.dialCode.toString();
-                        });
-                      },
-                      initialSelection: initialCountryCode,
-                      favorite: ['BE', 'NL', 'DE'],
-                      showFlag: true,
-                      showDropDownButton: true,
-                      flagWidth: 40.0,
-                      textStyle: TextStyle(color: Colors.white),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 40.0,
+                  width: 350.0,
+                  child: TextFormField(
+                    initialValue: _firstName,
+                    decoration: buildInputDecoration(
+                      'First Name',
+                      'Enter your first name',
                     ),
+                    style: FormStyles.inputTextStyle(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a first name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _firstName = value ?? '',
                   ),
-                  SizedBox(
-                    height: 40.0,
-                    width: 180.0,
-                    child: TextField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: buildInputDecoration(
-                        'Phone',
-                        'Enter your Phone number',
+                ),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 40.0,
+                  width: 350.0,
+                  child: TextFormField(
+                    initialValue: _lastName,
+                    decoration: buildInputDecoration(
+                      'Last Name',
+                      'Enter your last name',
+                    ),
+                    style: FormStyles.inputTextStyle(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a last name';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _lastName = value ?? '',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 40.0,
+                  width: 350.0,
+                  child: TextFormField(
+                    initialValue: _email,
+                    decoration: buildInputDecoration(
+                      'Email',
+                      'Enter your email',
+                    ),
+                    style: FormStyles.inputTextStyle(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _email = value ?? '',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 40.0,
+                  width: 350.0,
+                  child: TextFormField(
+                    controller: _addressController,
+                    decoration: buildInputDecoration(
+                      'Address',
+                      'Enter your address',
+                    ),
+                    style: FormStyles.inputTextStyle(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an address';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _address = value ?? '',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 40.0,
+                  width: 350.0,
+                  child: TextFormField(
+                    controller: _cityController,
+                    decoration: buildInputDecoration(
+                      'City',
+                      'Enter your city',
+                    ),
+                    style: FormStyles.inputTextStyle(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a city';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _city = value ?? '',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                SizedBox(
+                  height: 40.0,
+                  width: 350.0,
+                  child: TextFormField(
+                    controller: _zipcodeController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: buildInputDecoration(
+                      'Zip Code',
+                      'Enter your zipcode',
+                    ),
+                    style: FormStyles.inputTextStyle(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a zip code';
+                      }
+                      return null;
+                    },
+                    onSaved: (value) => _zipcode = value ?? '',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 170.0,
+                      child: CountryCodePicker(
+                        onChanged: (_selectedCountry) {
+                          setState(() {
+                            _selectedCountry = _selectedCountry;
+                            countryname = _selectedCountry.name.toString();
+                            countrydail = _selectedCountry.dialCode.toString();
+                          });
+                        },
+                        initialSelection: initialCountryCode,
+                        favorite: ['BE', 'NL', 'DE'],
+                        showFlag: true,
+                        showDropDownButton: true,
+                        flagWidth: 40.0,
+                        textStyle: TextStyle(color: Colors.white),
                       ),
-                      style: FormStyles.inputTextStyle(),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    int? userId = await _updateUser();
-                    if (userId != null) {
-                      showSnackbar('Update successful', Colors.green);
-                      await Future.delayed(Duration(seconds: 1));
-                      Navigator.pushReplacement(
+                    SizedBox(
+                      height: 40.0,
+                      width: 180.0,
+                      child: TextField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        decoration: buildInputDecoration(
+                          'Phone',
+                          'Enter your Phone number',
+                        ),
+                        style: FormStyles.inputTextStyle(),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      int? userId = await _updateUser();
+                      if (userId != null) {
+                        showSnackbar('Update successful', Colors.green);
+                        await Future.delayed(Duration(seconds: 1));
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => EmployeeDetails(
@@ -241,15 +242,17 @@ class _UpdateAccountScreenState extends State<UpdateAccountScreen> {
                               cards: [],
                               attendances: [],
                             ),
-                          ));
-                    } else {
-                      showSnackbar('Update failed', Colors.red);
+                          ),
+                        );
+                      } else {
+                        showSnackbar('Update failed', Colors.red);
+                      }
                     }
-                  }
-                },
-                child: Text('Submit'),
-              ),
-            ],
+                  },
+                  child: Text('Submit'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
