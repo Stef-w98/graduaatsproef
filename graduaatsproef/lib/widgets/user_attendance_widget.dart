@@ -96,8 +96,8 @@ class _AttendanceDataTableWidgetState extends State<AttendanceDataTableWidget> {
         dataTextStyle: TextStyle(color: Colors.white),
         columns: [
           DataColumn(label: Text('Date')),
-          DataColumn(label: Text('Check In')),
-          DataColumn(label: Text('Check Out')),
+          DataColumn(label: Text('Check-In')),
+          DataColumn(label: Text('Check-Out')),
         ],
         rows: filteredAttendances.map((attendance) {
           return DataRow(cells: [
